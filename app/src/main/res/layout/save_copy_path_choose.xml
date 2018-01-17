@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="70dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/bg_copy_path">
+    <TextView
+        android:id="@+id/tv_sdcard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sdCard"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textSize="@dimen/preview_top_textsize"
+        android:textColor="@color/colorBase"
+        android:clickable="true"
+        android:background="@drawable/bg_tv_to_btn"/>
+    <View
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorBase"/>
+    <TextView
+        android:id="@+id/tv_usb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/usb"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textSize="@dimen/preview_top_textsize"
+        android:textColor="@color/colorBase"
+        android:clickable="true"
+        android:background="@drawable/bg_tv_to_btn"/>
+
+</LinearLayout>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:paddingBottom="20dp">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/textSet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="网络连接设置" />
+
+    <View
+        android:id="@+id/fengexian"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorview" />
+
+    <TextView
+        android:id="@+id/textWifiAuto"
+        style="@style/small_textSet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fengexian"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="15dp"
+        android:padding="5dp"
+        android:text="自动连接：" />
+
+    <Switch
+        android:id="@+id/switch_dialog_wifiLinkAuto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textWifiAuto"
+        android:layout_alignRight="@+id/textWifiAuto"
+        android:layout_marginRight="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout_wifiChoose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textWifiAuto"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/textWifiLinkChoose"
+            style="@style/small_textSet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="连接选择：" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup_dialog_wifiLinkChoose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:checkedButton="@+id/repeater"
+            android:orientation="horizontal"
+            android:layout_marginRight="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <RadioButton
+                android:id="@+id/rb_dialog_repeater"
+                style="@style/small_textSet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="中继"
+                android:layout_marginRight="10dp"/>
+
+            <RadioButton
+                android:id="@+id/rb_dialog_mainFrame"
+                style="@style/small_textSet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="主机" />
+        </RadioGroup>
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/frameLayout_mainFrameState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frameLayout_wifiChoose"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            style="@style/small_textSet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="主机信号：" />
+
+        <TextView
+            android:id="@+id/tv_dialog_wifiMainFrame"
+            style="@style/small_textSet"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="无信号"
+            android:textColor="@color/red"
+            android:layout_marginRight="5dp"
+            android:paddingLeft="10dp"
+            android:padding="5dp"/>
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/frameLayout_repeaterState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frameLayout_mainFrameState"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            style="@style/small_textSet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="中继信号：" />
+
+        <TextView
+            android:id="@+id/tv_dialog_wifiRepeater"
+            style="@style/small_textSet"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="无信号"
+            android:textColor="@color/red"
+            android:layout_marginRight="5dp"
+            android:paddingLeft="10dp"
+            android:padding="5dp"/>
+    </FrameLayout>
+
+
+</RelativeLayout>

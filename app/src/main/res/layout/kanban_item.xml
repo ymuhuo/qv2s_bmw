@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/file_item_container_out_padding">
+
+    <LinearLayout
+        android:id="@+id/item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/item_img"
+            android:layout_width="@dimen/kanban_img_width"
+            android:layout_height="@dimen/kanban_img_width"
+            android:layout_gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingLeft="@dimen/file_item_container_padding"
+            android:paddingRight="@dimen/file_item_container_padding"
+            android:paddingTop="@dimen/file_item_container_padding"
+            android:src="@mipmap/picture_item" />
+
+        <TextView
+            android:id="@+id/item_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="@dimen/file_item_container_padding"
+            android:paddingLeft="@dimen/file_item_container_padding"
+            android:paddingRight="@dimen/file_item_container_padding"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/file_item_textsize" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/item_choose"
+        android:layout_width="@dimen/file_choose_width"
+        android:layout_height="@dimen/file_choose_width"
+        android:layout_gravity="top|right"
+        android:layout_margin="5dp"
+        android:src="@mipmap/choose"
+        android:visibility="gone" />
+
+</FrameLayout>

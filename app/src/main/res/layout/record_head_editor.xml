@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_record_editor_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/bottom_menu"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:layout_marginBottom="@dimen/record_head_editor_container_marginbottom">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/record_head_editor_marginbottom">
+
+            <TextView
+                style="@style/dialog_record_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/record_task_name_e"
+                android:textColor="@color/colorText" />
+
+            <EditText
+                android:id="@+id/record_task_name_edt"
+                style="@style/dialog_record_edit"
+                android:layout_width="match_parent"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_dialog_editext" />
+            <TextView
+                style="@style/dialog_record_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/record_task_start_e"
+                android:textColor="@color/colorText" />
+
+            <EditText
+                android:id="@+id/record_task_start_edt"
+                style="@style/dialog_record_edit"
+                android:layout_width="match_parent"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_dialog_editext" />
+            <TextView
+                style="@style/dialog_record_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/record_task_end_e"
+                android:textColor="@color/colorText" />
+
+            <EditText
+                android:id="@+id/record_task_end_edt"
+                style="@style/dialog_record_edit"
+                android:layout_width="match_parent"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_dialog_editext" />
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/record_head_editor_marginbottom">
+
+        <TextView
+            android:id="@+id/record_task_id_tv"
+            style="@style/dialog_record_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/record_task_id_e"
+            android:textColor="@color/colorText" />
+
+        <EditText
+            android:id="@+id/record_task_id_edt"
+            style="@style/dialog_record_edit"
+            android:layout_width="match_parent"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_dialog_editext" />
+        <TextView
+            style="@style/dialog_record_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/record_task_direction_e"
+            android:textColor="@color/colorText" />
+
+        <com.bmw.peek2.view.view.MySpinner
+            android:id="@+id/record_task_direction_sp"
+            style="@style/dialog_record_edit"
+            android:layout_width="match_parent"
+            android:layout_weight="4"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_dialog_editext"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            style="@style/dialog_record_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/record_task_sort_e"
+            android:textColor="@color/colorText" />
+
+        <com.bmw.peek2.view.view.MySpinner
+            android:id="@+id/record_task_sort_sp"
+            style="@style/dialog_record_edit"
+            android:layout_width="match_parent"
+            android:layout_weight="4"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_dialog_editext" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/record_head_editor_marginbottom">
+
+        <TextView
+            style="@style/dialog_record_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:padding="5dp"
+            android:text="@string/record_task_people_e"
+            android:textColor="@color/colorText" />
+
+        <EditText
+            android:id="@+id/record_task_people_edt"
+            style="@style/dialog_record_edit"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_dialog_editext" />
+        <TextView
+            style="@style/dialog_record_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_marginLeft="10dp"
+            android:text="@string/record_task_diameter_e"
+            android:textColor="@color/colorText" />
+
+        <EditText
+            android:id="@+id/record_task_diameter_edt"
+            style="@style/dialog_record_edit"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_dialog_editext"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:gravity="center"
+           android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/record_head_editor_marginbottom">
+
+           <TextView
+               style="@style/dialog_record_edit"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:padding="5dp"
+               android:text="@string/record_task_place_e"
+               android:textColor="@color/colorText" />
+
+           <EditText
+               android:id="@+id/record_task_place_edt"
+               style="@style/dialog_record_edit"
+               android:layout_width="match_parent"
+               android:layout_weight="1"
+               android:layout_marginRight="1dp"
+               android:layout_height="wrap_content"
+               android:background="@drawable/bg_dialog_editext" />
+
+           <TextView
+               style="@style/dialog_record_edit"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="40dp"
+               android:padding="5dp"
+               android:text="@string/record_task_guancai_e"
+               android:textColor="@color/colorText" />
+
+           <com.bmw.peek2.view.view.MySpinner
+               android:id="@+id/record_task_guancai_sp"
+               style="@style/dialog_record_edit"
+               android:layout_width="match_parent"
+               android:layout_weight="1"
+               android:layout_height="wrap_content"
+               android:background="@drawable/bg_dialog_editext" />
+       </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/record_head_editor_marginbottom">
+
+        <TextView
+            style="@style/dialog_record_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/record_task_computer_e"
+            android:textColor="@color/colorText" />
+
+        <EditText
+            android:id="@+id/record_task_conputer_edt"
+            style="@style/dialog_record_edit"
+            android:layout_width="match_parent"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_dialog_editext"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

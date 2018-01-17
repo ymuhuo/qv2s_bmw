@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog">
+
+    <EditText
+        android:id="@+id/biaoji_editext"
+        style="@style/seekBar_text"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_biaoji_edit_height"
+        android:background="@drawable/bg_dialog_editext"
+        android:imeOptions="flagNoExtractUi"
+        android:gravity="top"
+        android:padding="10dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:id="@+id/biaoji_sure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            style="@style/dialog_btn_text"
+            android:clickable="true"
+            android:background="@drawable/bg_record_btn"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textSize="@dimen/dialog_biaoji_textsize"
+            android:text="@string/sure"/>
+        <TextView
+            android:id="@+id/biaoji_cancel"
+            android:text="@string/cancel"
+            android:layout_toLeftOf="@+id/biaoji_sure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:background="@drawable/bg_record_btn"
+            style="@style/dialog_btn_text"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textSize="@dimen/dialog_biaoji_textsize"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/biaoji_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:background="@drawable/bg_record_btn"
+            style="@style/dialog_btn_text"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/clear"
+            android:textSize="@dimen/dialog_biaoji_textsize"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentLeft="true"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

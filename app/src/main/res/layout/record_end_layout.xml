@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_record_pause"
+        android:layout_width="@dimen/width_record_end_choose"
+        android:layout_height="@dimen/width_record_end_choose"
+        android:text="@string/pause"
+        android:textColor="@color/white"
+        android:textSize="@dimen/preview_textsize"
+        android:padding="10dp"
+        android:clickable="true"
+        android:background="@drawable/bg_big_btn"
+        android:gravity="center"/>
+    <TextView
+        android:id="@+id/tv_record_stop"
+        android:layout_marginLeft="20dp"
+        android:layout_width="@dimen/width_record_end_choose"
+        android:layout_height="@dimen/width_record_end_choose"
+        android:text="@string/stop"
+        android:textColor="@color/white"
+        android:textSize="@dimen/preview_textsize"
+        android:padding="10dp"
+        android:clickable="true"
+        android:background="@drawable/bg_big_btn"
+        android:gravity="center"/>
+
+</LinearLayout>

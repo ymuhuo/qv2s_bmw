@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/ll_top_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/preview_toMenu_height"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|left"
+            android:padding="5dp"
+            android:text="@string/record_miaoshu"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/pic_edit_title_textsize" />
+
+        <com.bmw.peek2.view.view.CompositeImageText
+            android:id="@+id/add_textToImg"
+            android:layout_toLeftOf="@+id/container_battery_system"
+            app:imgImage="@mipmap/pencil"
+            app:textString="@string/add_textToImg"
+            android:layout_width="@dimen/preview_topMenu_connectWidth"
+            style="@style/style_top_menu_main"/>
+
+        <include layout="@layout/battery_layout" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="3dp"
+            android:layout_toLeftOf="@+id/pic_edit_rightMenu_container"
+            android:background="@drawable/bg_border_yellow"
+            android:orientation="vertical"
+            android:padding="3dp">
+
+
+            <ImageView
+                android:id="@+id/capture_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/pic_edit_imgBottom_container"
+                android:layout_alignParentTop="true" />
+
+            <ScrollView
+                android:id="@+id/pic_edit_imgBottom_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/file_show_scroll_height"
+                android:layout_alignParentBottom="true">
+
+                <LinearLayout
+                    android:id="@+id/pic_show_bottom_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_title_picQuexian"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/capture_image"
+                        android:text="缺陷描述："
+                        android:textColor="@color/colorText"
+                        android:textSize="@dimen/fileshow_quexian_title_textsize" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/activity_pic_show_list"
+                            android:text="@string/capture_guandao_id" />
+
+                        <TextView
+                            style="@style/activity_pic_show_list"
+                            android:text="@string/capture_quexian_style" />
+
+                        <TextView
+                            style="@style/activity_pic_show_list"
+                            android:text="@string/capture_quexian_name" />
+
+                        <TextView
+                            style="@style/activity_pic_show_list"
+                            android:text="@string/capture_quexian_grade" />
+
+                        <TextView
+                            style="@style/activity_pic_show_list"
+                            android:text="@string/capture_quexian_distance" />
+
+                        <TextView
+                            style="@style/activity_pic_show_list"
+                            android:text="@string/capture_quexian_clock" />
+
+                        <TextView
+                            style="@style/activity_pic_show_list"
+                            android:text="@string/capture_quexian_length" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/pic_show_guandaoId"
+                            style="@style/activity_pic_show_list" />
+
+                        <TextView
+                            android:id="@+id/pic_show_style"
+                            style="@style/activity_pic_show_list" />
+
+                        <TextView
+                            android:id="@+id/pic_show_name"
+                            style="@style/activity_pic_show_list" />
+
+                        <TextView
+                            android:id="@+id/pic_show_grade"
+                            style="@style/activity_pic_show_list" />
+
+                        <TextView
+                            android:id="@+id/pic_show_distance"
+                            style="@style/activity_pic_show_list" />
+
+                        <TextView
+                            android:id="@+id/pic_show_clock"
+                            style="@style/activity_pic_show_list" />
+
+                        <TextView
+                            android:id="@+id/pic_show_length"
+                            style="@style/activity_pic_show_list" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/pic_show_detail"
+                        style="@style/activity_pic_show_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="left" />
+
+                </LinearLayout>
+            </ScrollView>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/pic_edit_rightMenu_container"
+            android:layout_width="@dimen/pic_edit_rightMenu_width"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_margin="3dp"
+            android:background="@drawable/bg_border_yellow"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:id="@+id/capture_guandaohao_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="@string/capture_guandao_id_e"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/capture_guandaohao" />
+
+                <EditText
+                    android:id="@+id/pipe_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_dialog_editext"
+                    android:ellipsize="end"
+                    android:imeOptions="flagNoExtractUi"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/capture_guandaohao"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/capture_quexian_list_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/capture_bottom_container"
+                android:layout_below="@+id/capture_guandaohao_container"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_border_yellow_small"
+                android:orientation="vertical"
+                android:padding="3dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="@string/capture_quexian_list"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/capture_guandaohao" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorText"
+                    android:orientation="horizontal"
+                    android:padding="3dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/capture_quexian_style"
+                        android:textSize="@dimen/capture_guandaohao" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/capture_quexian_name"
+                        android:textSize="@dimen/capture_guandaohao" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="@string/capture_quexian_grade"
+                        android:textSize="@dimen/capture_guandaohao" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/capture_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/capture_bottom_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/pic_edit_bottomMenu_height"
+                android:layout_alignParentBottom="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/capture_add"
+                    style="@style/dialog_record_button"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="0dp"
+                    android:layout_weight="4"
+                    android:text="@string/add" />
+
+                <TextView
+                    android:id="@+id/capture_change"
+                    style="@style/dialog_record_button"
+                    android:layout_width="match_parent"
+                    android:layout_weight="4"
+                    android:text="@string/change" />
+
+                <TextView
+                    android:id="@+id/capture_delete"
+                    style="@style/dialog_record_button"
+                    android:layout_width="match_parent"
+                    android:layout_weight="4"
+                    android:text="@string/delete" />
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3">
+
+                    <ImageView
+                        android:id="@+id/tv_picEdit_goback"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/img_btn_bg"
+                        android:clickable="true"
+                        android:padding="5dp"
+                        android:src="@mipmap/goback" />
+                </FrameLayout>
+
+
+            </LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

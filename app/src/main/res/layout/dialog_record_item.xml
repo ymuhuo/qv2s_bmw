@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/record_item_container"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorText"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/record_item_task_id"
+            style="@style/dialog_record_list_item"
+            android:text="@string/record_task_id" />
+
+        <TextView
+            android:id="@+id/record_item_task_name"
+            style="@style/dialog_record_list_item"
+            android:text="@string/record_task_name" />
+
+        <TextView
+            android:id="@+id/record_item_task_place"
+            style="@style/dialog_record_list_item"
+            android:text="@string/record_task_place" />
+
+        <TextView
+            android:id="@+id/record_item_task_start"
+            style="@style/dialog_record_list_item"
+            android:text="@string/record_task_start" />
+
+        <TextView
+            android:id="@+id/record_item_task_end"
+            style="@style/dialog_record_list_item"
+            android:text="@string/record_task_end" />
+
+        <TextView
+            android:id="@+id/record_item_task_direction"
+            style="@style/dialog_record_list_item"
+            android:text="@string/record_task_direction" />
+
+        <TextView
+            android:id="@+id/record_item_task_sort"
+            style="@style/dialog_record_list_item"
+            android:text="@string/record_task_sort" />
+
+        <TextView
+            android:id="@+id/record_item_task_guancai"
+            style="@style/dialog_record_list_item"
+            android:text="@string/record_task_guancai" />
+
+        <TextView
+            android:id="@+id/record_item_task_diameter"
+            style="@style/dialog_record_list_item"
+            android:text="@string/record_task_diameter" />
+
+        <TextView
+            android:id="@+id/record_item_task_computer"
+            style="@style/dialog_record_list_item"
+            android:text="@string/record_task_computer" />
+
+        <TextView
+            android:id="@+id/record_item_task_people"
+            style="@style/dialog_record_list_item"
+            android:text="@string/record_task_people" />
+
+    </LinearLayout>
+
+</RelativeLayout>

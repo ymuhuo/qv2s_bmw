@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/file_item_container_out_padding"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/item_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="@dimen/file_item_container_padding"
+            android:paddingLeft="@dimen/file_item_container_padding"
+            android:paddingRight="@dimen/file_item_container_padding"
+            android:paddingBottom="5dp"
+            android:src="@mipmap/picture_item" />
+
+        <TextView
+            android:id="@+id/item_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingLeft="@dimen/file_item_container_padding"
+            android:paddingRight="@dimen/file_item_container_padding"
+            android:paddingBottom="@dimen/file_item_container_padding"
+            android:textSize="@dimen/file_item_textsize"
+            android:textColor="@color/colorText" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/item_choose"
+        android:layout_width="@dimen/file_choose_width"
+        android:layout_height="@dimen/file_choose_width"
+        android:layout_margin="5dp"
+        android:layout_gravity="top|right"
+        android:src="@mipmap/choose"
+        android:visibility="gone"/>
+
+</FrameLayout>

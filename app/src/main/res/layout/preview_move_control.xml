@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/preview_control_width"
+    android:layout_height="match_parent"
+    android:layout_alignParentRight="true"
+    android:layout_marginRight="10dp"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="@dimen/preview_control_width"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/preview_move_container">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_suspend"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/autoHorizontal"
+                android:layout_width="@dimen/preview_autoHorizontal"
+                android:layout_height="@dimen/preview_autoHorizontal"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/img_btn_bg"
+                android:clickable="true"
+                android:padding="@dimen/preview_autoHorizontal_padding"
+                android:src="@mipmap/hozontal" />
+        </FrameLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/preview_move_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/preview_moveImg_marginBottom"
+        android:background="@drawable/bg_suspend"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/moveUp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/preview_moveImg_height"
+            android:background="@drawable/img_btn_bg"
+            android:clickable="true"
+            android:src="@mipmap/up" />
+
+        <ImageView
+            android:id="@+id/size_add"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/preview_moveImg_height"
+            android:background="@drawable/img_btn_bg"
+            android:clickable="true"
+            android:src="@mipmap/zoom_in"/>
+
+        <ImageView
+            android:id="@+id/size_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/preview_moveImg_height"
+            android:background="@drawable/img_btn_bg"
+            android:clickable="true"
+            android:src="@mipmap/zoom_out" />
+
+        <ImageView
+            android:id="@+id/moveDown"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/preview_moveImg_height"
+            android:background="@drawable/img_btn_bg"
+            android:clickable="true"
+            android:src="@mipmap/down" />
+    </LinearLayout>
+
+</RelativeLayout>

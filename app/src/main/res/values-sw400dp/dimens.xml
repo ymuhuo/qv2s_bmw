@@ -1,0 +1,110 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="small_preview_textsize">15sp</dimen>
+    <dimen name="toast_tv_size">12sp</dimen>
+    <dimen name="seekbarText">13sp</dimen>
+    <dimen name="lineWidth">1dp</dimen>
+    <dimen name="Setting_edt">12sp</dimen>
+    <dimen name="Setting_sureTxt">15sp</dimen>
+    <dimen name="record_dialog_title">16sp</dimen>
+    <dimen name="record_dialog_edit">13sp</dimen>
+    <dimen name="capture_guandaohao">12sp</dimen>
+    <dimen name="pic_show_title">18sp</dimen>
+    <dimen name="preview_wifiLinkTextSize">18sp</dimen>
+    <dimen name="connect_text_size">14sp</dimen>
+    <dimen name="pic_show_width">640dp</dimen>
+    <dimen name="pic_show_height">360dp</dimen>
+    <dimen name="pic_edit_width">600dp</dimen>
+    <dimen name="biaojiText">24sp</dimen>
+
+    <dimen name="preview_control_width">60dp</dimen>
+    <dimen name="preview_autoHorizontal">60dp</dimen>
+    <dimen name="preview_moveImg_height">60dp</dimen>
+    <dimen name="preview_moveImg_marginBottom">25dp</dimen>
+    <dimen name="preview_autoHorizontal_padding">12dp</dimen>
+
+    <dimen name="preview_lightControl_boom_textsize">15sp</dimen>
+    <dimen name="preview_lightControl_zoomWidth">55dp</dimen>
+    <dimen name="preview_lightControl_img_width">55dp</dimen>
+    <dimen name="preview_lightControl_textsize">14sp</dimen>
+    <dimen name="preview_light_LRlength">15dp</dimen>
+    <dimen name="preview_lightImg_lfLength_padding">10dp</dimen>
+    <dimen name="preview_lightControl_seekbar_height">200dp</dimen>
+
+    <dimen name="preview_top_textsize">13sp</dimen>
+    <dimen name="preview_toMenu_height">58dp</dimen>
+    <dimen name="preview_topMenu_width">50dp</dimen>
+    <dimen name="preview_topMenu_angle_width">59dp</dimen>
+    <dimen name="preview_topMenu_connectWidth">65dp</dimen>
+
+    <dimen name="preview_topMenu_locateImg_height">36dp</dimen>
+    <dimen name="preview_topMenu_locateImg_width">30dp</dimen>
+    <dimen name="preview_topMenu_chuwuImg_width">40dp</dimen>
+    <dimen name="previe_topMenu_picfileImg_height">28dp</dimen>
+    <dimen name="preview_topMenu_rulerImg_height">27dp</dimen>
+    <dimen name="preview_topMenu_recordImg_width">42dp</dimen>
+    <dimen name="preview_topMenu_batteryImg_width">35dp</dimen>
+    <dimen name="preview_topMenu_battery_MarginTop">16dp</dimen>
+    <dimen name="preview_topMenu_battery_textsize">10sp</dimen>
+    <dimen name="preview_topMenu_setImg_width">28dp</dimen>
+    <dimen name="file_show_back_textsize">11sp</dimen>
+
+    <dimen name="setting_rg_width">550dp</dimen>
+    <dimen name="setting_fl_height">300dp</dimen>
+    <dimen name="setting_text">16sp</dimen>
+    <dimen name="setting_marginLR">130dp</dimen>
+
+    <dimen name="preview_textsize">14sp</dimen>
+    <dimen name="file_show_rMenu_width">270dp</dimen>
+    <dimen name="file_item_container_padding">9dp</dimen>
+    <dimen name="file_item_container_out_padding">3dp</dimen>
+    <dimen name="file_item_textsize">10sp</dimen>
+    <dimen name="pic_show_list">11sp</dimen>
+    <dimen name="fileshow_quexian_title_textsize">15sp</dimen>
+    <dimen name="file_show_scroll_height">90dp</dimen>
+    <dimen name="video_player_time_marginTop">20dp</dimen>
+    <dimen name="video_player_seekbar_marginBottom">10dp</dimen>
+    <dimen name="seekbar_paddingBottom">15dp</dimen>
+    <dimen name="pic_edit_tishi_height">250dp</dimen>
+    <dimen name="pic_edit_rightMenu_width">290dp</dimen>
+    <dimen name="pic_edit_title_textsize">16sp</dimen>
+    <dimen name="record_dialog_list_title">10sp</dimen>
+    <dimen name="pic_edit_bottomMenu_height">50dp</dimen>
+
+    <dimen name="file_show_marginbottom">65dp</dimen>
+    <dimen name="file_show_menu_margin">5dp</dimen>
+    <dimen name="file_show_sdcard_textsize">60dp</dimen>
+    <dimen name="dialog_biaoji_textsize">13sp</dimen>
+    <dimen name="dialog_biaoji_edit_height">120dp</dimen>
+    <dimen name="dialog_biaoji_edit_width">400dp</dimen>
+    <dimen name="video_player_textsize">12sp</dimen>
+    <dimen name="record_head_editor_marginbottom">1dp</dimen>
+    <dimen name="record_head_editor_container_marginbottom">0dp</dimen>
+    <dimen name="dialog_normal_title_textsize">17sp</dimen>
+    <dimen name="dialog_normal_message_textsize">13sp</dimen>
+    <dimen name="preview_no_video">56sp</dimen>
+    <dimen name="preview_record_time_textsize">8sp</dimen>
+    <dimen name="preview_record_container_width">80dp</dimen>
+    <dimen name="preview_topMenu_record_width">70dp</dimen>
+    <dimen name="updateActivity_width">300dp</dimen>
+    <dimen name="updateActivity_cancel_width">25dp</dimen>
+    <dimen name="updateActivity_cancel_padding">5dp</dimen>
+    <dimen name="video_player_control_height">38dp</dimen>
+    <dimen name="connect_img_width">30dp</dimen>
+    <dimen name="video_player_play_stop_width">35dp</dimen>
+    <dimen name="video_player_last_next_width">37dp</dimen>
+    <dimen name="video_player_slow_fast">39dp</dimen>
+    <dimen name="video_player_cut">36dp</dimen>
+    <dimen name="video_play_seekbar_height">30dp</dimen>
+    <dimen name="file_choose_width">15dp</dimen>
+
+    <dimen name="top_menu_width">45dp</dimen>
+    <dimen name="width_record_end_choose">78dp</dimen>
+    <dimen name="record_menu_height">45dp</dimen>
+    <dimen name="kanban_img_width">45dp</dimen>
+    <dimen name="welcom_tv_size">60sp</dimen>
+    <dimen name="time_title_height">40dp</dimen>
+    <dimen name="logo_width">90dp</dimen>
+</resources>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="horizontal"
+    android:paddingBottom="5dp">
+
+    <LinearLayout
+        android:id="@+id/ll_title_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/time_title_height"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/sys_title"
+                style="@style/textSet"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="@string/jixin_time_set" />
+
+            <Switch
+                android:id="@+id/sw_osd_time_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="18dp"
+                android:checked="true"/>
+
+            <TextView
+                android:id="@+id/tv_osd_time_show"
+                style="@style/textSet"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="2dp"
+                android:gravity="center"
+                android:text="@string/open" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/textSet"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:text="@string/current_jixin_time" />
+
+        <TextView
+            android:id="@+id/tv_current_jixin_time"
+            style="@style/textSet"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:gravity="center"/>
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/fengexian"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/ll_title_container"
+        android:layout_marginTop="0dp"
+        android:background="@color/colorview" />
+
+    <LinearLayout
+        android:id="@+id/ll_time_operator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fengexian"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:theme="@style/Theme.picker">
+
+        <DatePicker
+            android:id="@+id/new_act_date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner" />
+
+        <TimePicker
+            android:id="@+id/new_act_time_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/background"
+            android:timePickerMode="spinner" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_time_operator">
+
+        <TextView
+            android:id="@+id/tv_sure"
+            style="@style/textSet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/bg_tv_to_btn"
+            android:clickable="true"
+            android:padding="10dp"
+            android:text="@string/sure" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            style="@style/textSet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/tv_sure"
+            android:background="@drawable/bg_tv_to_btn"
+            android:clickable="true"
+            android:padding="10dp"
+            android:text="@string/cancel" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

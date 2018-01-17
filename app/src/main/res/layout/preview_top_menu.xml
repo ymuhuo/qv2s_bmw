@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/preview_top_menu_container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/preview_toMenu_height"
+    android:background="@color/background"
+    android:orientation="horizontal">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/preview_toMenu_height"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+
+        <com.bmw.peek2.view.view.CompositeImageText
+            android:id="@+id/Records"
+            app:textString="@string/record"
+            app:imgImage="@mipmap/record"
+            android:layout_width="@dimen/preview_topMenu_record_width"
+            style="@style/style_top_menu_main"/>
+
+
+        <com.bmw.peek2.view.view.CompositeImageText
+            android:id="@+id/screenShot"
+            app:textString="@string/capture"
+            app:imgImage="@mipmap/shot"
+            style="@style/style_top_menu_main"/>
+
+        <com.bmw.peek2.view.view.CompositeImageText
+            android:id="@+id/biaoji"
+            app:textString="@string/biaoji"
+            app:imgImage="@mipmap/pencil"
+            style="@style/style_top_menu_main"/>
+
+        <com.bmw.peek2.view.view.CompositeImageText
+            android:id="@+id/ranging"
+            app:textString="@string/celiang"
+            app:imgImage="@mipmap/ruler_gray"
+            app:textColor="@color/white"
+            style="@style/style_top_menu_main"/>
+
+        <com.bmw.peek2.view.view.CompositeImageText
+            android:id="@+id/preview_video"
+            app:textString="@string/backVideo"
+            app:imgImage="@mipmap/playback1"
+            style="@style/style_top_menu_main"/>
+
+        <com.bmw.peek2.view.view.CompositeImageText
+            android:id="@+id/preview_picture"
+            app:textString="@string/picture"
+            app:imgImage="@mipmap/picfile"
+            style="@style/style_top_menu_main"/>
+
+        <com.bmw.peek2.view.view.CompositeImageText
+            android:id="@+id/preview_clearFog"
+            app:textString="@string/chuWu"
+            app:imgImage="@mipmap/chuwu_off"
+            app:textColor="@color/white"
+            style="@style/style_top_menu_main"/>
+
+        <com.bmw.peek2.view.view.CompositeImageText
+            android:id="@+id/preview_locate"
+            app:textString="@string/locate"
+            app:imgImage="@mipmap/locate_off"
+            app:textColor="@color/white"
+            style="@style/style_top_menu_main"/>
+
+    </LinearLayout>
+
+
+    <com.bmw.peek2.view.view.CompositeImageText
+        android:id="@+id/preview_moveAngel"
+        app:textString="@string/angle"
+        app:imgImage="@mipmap/angle"
+        android:layout_width="@dimen/preview_topMenu_angle_width"
+        style="@style/style_top_menu_main"
+        android:clickable="false"/>
+
+    <com.bmw.peek2.view.view.CompositeImageText
+        android:id="@+id/preview_connectState"
+        app:textString="@string/firstConnectState"
+        app:imgImage="@mipmap/disconnect"
+        app:textColor="@color/red"
+        android:layout_width="@dimen/preview_topMenu_connectWidth"
+        style="@style/style_top_menu_main"/>
+
+    <com.bmw.peek2.view.view.CompositeImageText
+        android:id="@+id/preview_setting"
+        app:textString="@string/setting"
+        app:imgImage="@mipmap/setting"
+        style="@style/style_top_menu_main"/>
+
+    <include layout="@layout/battery_layout" />
+
+</LinearLayout>

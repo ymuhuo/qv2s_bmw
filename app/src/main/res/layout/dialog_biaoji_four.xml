@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog"
+    android:orientation="vertical"
+    android:padding="10dp">
+    <!--
+            android:layout_height="@dimen/dialog_biaoji_edit_height"-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog_editext"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:textColorHint="@color/colorBase_dark">
+
+            <com.bmw.peek2.view.view.EditSpinner
+                android:id="@+id/tiEdt_row1"
+                style="@style/seekBar_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:hint="标记行一"
+                android:imeOptions="flagNoExtractUi"
+                android:theme="@style/MyEditTextTheme" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:textColorHint="@color/colorBase_dark">
+
+            <com.bmw.peek2.view.view.EditSpinner
+                android:id="@+id/tiEdt_row2"
+                style="@style/seekBar_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:hint="标记行二"
+                android:imeOptions="flagNoExtractUi"
+                android:lines="1"
+                android:maxEms="44"
+                android:theme="@style/MyEditTextTheme" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tl_row3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:textColorHint="@color/colorBase_dark">
+
+            <com.bmw.peek2.view.view.EditSpinner
+                android:id="@+id/tiEdt_row3"
+                style="@style/seekBar_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:hint="标记行三"
+                android:imeOptions="flagNoExtractUi"
+                android:lines="1"
+                android:maxEms="44"
+                android:theme="@style/MyEditTextTheme" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tl_row4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:textColorHint="@color/colorBase_dark">
+
+            <com.bmw.peek2.view.view.EditSpinner
+                android:id="@+id/tiEdt_row4"
+                style="@style/seekBar_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:hint="标记行四"
+                android:imeOptions="flagNoExtractUi"
+                android:lines="1"
+                android:maxEms="44"
+                android:theme="@style/MyEditTextTheme" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/biaoji_sure"
+            style="@style/dialog_btn_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bg_record_btn"
+            android:clickable="true"
+            android:paddingBottom="6dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="6dp"
+            android:text="@string/sure"
+            android:textSize="@dimen/dialog_biaoji_textsize" />
+
+        <TextView
+            android:id="@+id/biaoji_cancel"
+            style="@style/dialog_btn_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/biaoji_sure"
+            android:background="@drawable/bg_record_btn"
+            android:clickable="true"
+            android:paddingBottom="6dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="6dp"
+            android:text="@string/cancel"
+            android:textSize="@dimen/dialog_biaoji_textsize" />
+
+        <TextView
+            android:id="@+id/biaoji_clear"
+            style="@style/dialog_btn_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/bg_record_btn"
+            android:clickable="true"
+            android:paddingBottom="6dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="6dp"
+            android:text="@string/reset"
+            android:textSize="@dimen/dialog_biaoji_textsize" />
+
+        <TextView
+            android:id="@+id/biaoji_clear_history"
+            style="@style/dialog_btn_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/biaoji_clear"
+            android:background="@drawable/bg_record_btn"
+            android:clickable="true"
+            android:paddingBottom="6dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="6dp"
+            android:text="@string/clear_history"
+            android:textSize="@dimen/dialog_biaoji_textsize" />
+
+    </RelativeLayout>
+
+</LinearLayout>

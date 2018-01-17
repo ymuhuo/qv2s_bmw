@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialog_record_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/record_miaoshu"
+        android:textColor="@color/colorText"
+        android:textSize="@dimen/record_dialog_title" />
+
+    <LinearLayout
+        android:id="@+id/dialog_record_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/dialog_record_editor_container"
+        android:layout_below="@+id/dialog_record_title"
+        android:background="@drawable/bg_dialog_editext"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorText"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <TextView
+                style="@style/dialog_record_list_title"
+                android:text="@string/record_task_id" />
+
+            <TextView
+                style="@style/dialog_record_list_title"
+                android:text="@string/record_task_name" />
+
+            <TextView
+                style="@style/dialog_record_list_title"
+                android:text="@string/record_task_place" />
+
+            <TextView
+                style="@style/dialog_record_list_title"
+                android:text="@string/record_task_start" />
+
+            <TextView
+                style="@style/dialog_record_list_title"
+                android:text="@string/record_task_end" />
+
+            <TextView
+                style="@style/dialog_record_list_title"
+                android:text="@string/record_task_direction" />
+
+            <TextView
+                style="@style/dialog_record_list_title"
+                android:text="@string/record_task_sort" />
+
+            <TextView
+                style="@style/dialog_record_list_title"
+                android:layout_marginLeft="8dp"
+                android:maxEms="2"
+                android:text="@string/record_task_guancai" />
+
+            <TextView
+                style="@style/dialog_record_list_title"
+                android:text="@string/record_task_diameter" />
+
+            <TextView
+                style="@style/dialog_record_list_title"
+                android:text="@string/record_task_pipeLength" />
+
+            <TextView
+                style="@style/dialog_record_list_title"
+                android:text="@string/record_task_wellHeight" />
+
+            <TextView
+                style="@style/dialog_record_list_title"
+                android:text="@string/record_task_computer" />
+
+            <TextView
+                style="@style/dialog_record_list_title"
+                android:text="@string/record_task_people" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/record_recylerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp" />
+    </LinearLayout>
+
+    <include layout="@layout/record_head_editor" />
+
+
+    <LinearLayout
+        android:id="@+id/bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/record_menu_height"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/record_start_page_btn"
+                style="@style/dialog_record_button"
+                android:text="@string/startOption" />
+
+            <TextView
+                android:id="@+id/record_last_page_btn"
+                style="@style/dialog_record_button"
+                android:text="@string/lastOption" />
+
+            <TextView
+                android:id="@+id/record_next_page_btn"
+                style="@style/dialog_record_button"
+                android:text="@string/nextOption" />
+
+            <TextView
+                android:id="@+id/record_end_page_btn"
+                style="@style/dialog_record_button"
+                android:text="@string/endOption" />
+
+            <TextView
+                android:id="@+id/record_add_page_btn"
+                style="@style/dialog_record_button"
+                android:text="  添加  " />
+
+            <TextView
+                android:id="@+id/record_change_page_btn"
+                style="@style/dialog_record_button"
+                android:text="  修改  " />
+
+            <TextView
+                android:id="@+id/record_delete_page_btn"
+                style="@style/dialog_record_button"
+                android:text="  删除  " />
+
+            <TextView
+                android:id="@+id/record_delete_all_page_btn"
+                style="@style/dialog_record_button"
+                android:text="@string/deleteAll"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/record_start_record_btn"
+            style="@style/dialog_record_button"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right|center"
+            android:layout_marginRight="10dp"
+            android:text="@string/startRecord" />
+
+        <ImageView
+            android:id="@+id/iv_goback"
+            android:layout_width="@dimen/preview_toMenu_height"
+            android:layout_height="match_parent"
+            android:background="@drawable/img_btn_bg"
+            android:clickable="true"
+            android:padding="5dp"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/goback"
+            android:visibility="gone"/>
+    </LinearLayout>
+</RelativeLayout>

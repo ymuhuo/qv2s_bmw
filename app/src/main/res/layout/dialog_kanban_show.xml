@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="15dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/img_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/back"
+            android:background="@drawable/img_btn_bg"
+            android:padding="5dp"
+            android:clickable="true"/>
+
+       <!-- <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:text="@string/kanbanTitle"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/dialog_normal_title_textsize" />-->
+
+        <TextView
+            android:id="@+id/tv_addNewKanban"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/add_new_kanban"
+            android:textColor="@color/colorBase"
+            android:textSize="@dimen/dialog_normal_title_textsize"
+            android:clickable="true"
+            android:background="@drawable/bg_tv_to_btn"/>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:padding="8dp" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_kanbanMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/normal_dialog_delete"
+            style="@style/dialog_btn_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_record_btn"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="@string/delete" />
+
+        <TextView
+            android:id="@+id/normal_dialog_preview"
+            style="@style/dialog_btn_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_record_btn"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="@string/preview" />
+
+        <TextView
+            android:id="@+id/normal_dialog_sure"
+            style="@style/dialog_btn_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_record_btn"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="@string/startRecord" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_btn_addNewKanban"
+        android:visibility="gone"
+        style="@style/dialog_btn_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_record_btn"
+        android:clickable="true"
+        android:gravity="center"
+        android:padding="6dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/add_new_kanban" />
+
+
+</LinearLayout>

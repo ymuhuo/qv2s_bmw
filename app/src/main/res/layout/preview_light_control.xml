@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/preview_control_width"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/light_control_container"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_suspend"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp"
+            android:padding="5dp">
+
+
+            <ImageView
+                android:id="@+id/zoom_add"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/preview_lightControl_zoomWidth"
+                android:background="@drawable/img_btn_bg"
+                android:clickable="true"
+                android:paddingLeft="@dimen/preview_light_LRlength"
+                android:paddingRight="@dimen/preview_light_LRlength"
+                android:src="@mipmap/add" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="聚焦"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/preview_lightControl_boom_textsize" />
+
+            <ImageView
+                android:id="@+id/zoom_sub"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/preview_lightControl_zoomWidth"
+                android:background="@drawable/img_btn_bg"
+                android:clickable="true"
+                android:paddingLeft="@dimen/preview_light_LRlength"
+                android:paddingRight="@dimen/preview_light_LRlength"
+                android:src="@mipmap/sub" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/light_control_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/preview_moveImg_marginBottom"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_suspend"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/lights_switch"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/preview_lightControl_img_width"
+                android:background="@drawable/img_btn_bg"
+                android:paddingLeft="@dimen/preview_lightImg_lfLength_padding"
+                android:paddingRight="@dimen/preview_lightImg_lfLength_padding"
+                android:src="@mipmap/light" />
+
+            <TextView
+                android:id="@+id/lights_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="近光灯"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/preview_lightControl_textsize" />
+
+            <com.bmw.peek2.view.view.Vertical_seekbar
+                android:id="@+id/lights_adjust"
+                style="@style/Widget.SeekBar.Normal"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/preview_lightControl_seekbar_height"
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:max="255" />
+
+        </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_border_yellow"
+    android:padding="3dp"
+    android:id="@+id/container_picturePlayer"
+    android:visibility="visible">
+
+
+        <uk.co.senab.photoview.PhotoView
+            android:id="@+id/photoView_pic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/scrollQuexianContainer"/>
+
+
+    <ScrollView
+        android:id="@+id/scrollQuexianContainer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/file_show_scroll_height"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <LinearLayout
+            android:id="@+id/pic_show_bottom_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="4dp">
+            <TextView
+                android:id="@+id/tv_title_picQuexian"
+                android:layout_below="@+id/photoView_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/defectShow"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/fileshow_quexian_title_textsize"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/activity_pic_show_list"
+                    android:text="@string/capture_guandao_id" />
+                <TextView
+                    style="@style/activity_pic_show_list"
+                    android:text="@string/capture_quexian_style" />
+                <TextView
+                    style="@style/activity_pic_show_list"
+                    android:text="@string/capture_quexian_name" />
+                <TextView
+                    style="@style/activity_pic_show_list"
+                    android:text="@string/capture_quexian_grade" />
+                <TextView
+                    style="@style/activity_pic_show_list"
+                    android:text="@string/capture_quexian_distance" />
+                <TextView
+                    style="@style/activity_pic_show_list"
+                    android:text="@string/capture_quexian_clock" />
+                <TextView
+                    style="@style/activity_pic_show_list"
+                    android:text="@string/capture_quexian_length" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/pic_show_guandaoId"
+                    style="@style/activity_pic_show_list" />
+                <TextView
+                    android:id="@+id/pic_show_style"
+                    style="@style/activity_pic_show_list"/>
+                <TextView
+                    android:id="@+id/pic_show_name"
+                    style="@style/activity_pic_show_list" />
+                <TextView
+                    android:id="@+id/pic_show_grade"
+                    style="@style/activity_pic_show_list" />
+                <TextView
+                    android:id="@+id/pic_show_distance"
+                    style="@style/activity_pic_show_list"/>
+                <TextView
+                    android:id="@+id/pic_show_clock"
+                    style="@style/activity_pic_show_list" />
+                <TextView
+                    android:id="@+id/pic_show_length"
+                    style="@style/activity_pic_show_list" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/pic_show_detail"
+                android:layout_marginLeft="20dp"
+                style="@style/activity_pic_show_list"
+                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
