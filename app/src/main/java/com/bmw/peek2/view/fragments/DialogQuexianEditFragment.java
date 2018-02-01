@@ -20,17 +20,13 @@ import android.widget.TextView;
 
 import com.bmw.peek2.BaseApplication;
 import com.bmw.peek2.R;
-import com.bmw.peek2.model.PictureQueXianInfo;
+import com.bmw.peek2.model.PipeDefectDetail;
 import com.bmw.peek2.model.QueXianInfo;
-import com.bmw.peek2.utils.DbHelper;
 import com.bmw.peek2.utils.LogUtil;
 import com.bmw.peek2.utils.PullXmlParseUtil;
 import com.bmw.peek2.view.adapter.TextSpinnerAdapter;
 import com.bmw.peek2.view.dialog.ClockShow_Dialog;
 import com.bmw.peek2.view.view.MySpinner;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.db.sqlite.WhereBuilder;
-import com.lidroid.xutils.exception.DbException;
 
 import java.io.IOException;
 import java.util.List;
@@ -69,9 +65,9 @@ public class DialogQuexianEditFragment extends DialogFragment {
     @Bind(R.id.capture_quexian_detail_tv)
     TextView mDetailTv;
     @Bind(R.id.capture_quexian_detail_edt)
-    EditText mDetailEdt;
+    TextView mDetailEdt;
     private boolean isChangeInfo;
-    private PictureQueXianInfo mPictureQueXianInfo;
+    private PipeDefectDetail mPipeDefectDetail;
 
     private String[] mArray_style;
     private int mStyle_id = -1;
@@ -80,14 +76,14 @@ public class DialogQuexianEditFragment extends DialogFragment {
     private int mName_id = -1;
     private List<QueXianInfo> mQuexianList;
     private View mView;
-    private DbUtils dbUtils;
+//    private DbUtils dbUtils;
     private Handler handler = new Handler();
 
-    public static DialogQuexianEditFragment getInstance(boolean isChange, PictureQueXianInfo pictureQueXianInfo) {
+    public static DialogQuexianEditFragment getInstance(boolean isChange, PipeDefectDetail pipeDefectImage) {
         DialogQuexianEditFragment dialogQuexianEditFragment = new DialogQuexianEditFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean("isChange", isChange);
-        bundle.putSerializable("PictureQueXianInfo", pictureQueXianInfo);
+        bundle.putSerializable("PipeDefectDetail", pipeDefectImage);
         dialogQuexianEditFragment.setArguments(bundle);
         return dialogQuexianEditFragment;
     }
@@ -95,11 +91,11 @@ public class DialogQuexianEditFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mPictureQueXianInfo = (PictureQueXianInfo) getArguments().getSerializable("PictureQueXianInfo");
+        this.mPipeDefectDetail = (PipeDefectDetail) getArguments().getSerializable("PipeDefectDetail");
         this.isChangeInfo = getArguments().getBoolean("isChange");
-        dbUtils = DbHelper.getDbUtils();
         getXmlData();
     }
+
 
     @NonNull
     @Override
@@ -111,7 +107,7 @@ public class DialogQuexianEditFragment extends DialogFragment {
 
         initAdapter();
         initSpinner();
-        if (mPictureQueXianInfo != null)
+        if (mPipeDefectDetail != null)
             initData();
         return alertDialog;
     }
@@ -169,7 +165,7 @@ public class DialogQuexianEditFragment extends DialogFragment {
                     @Override
                     public void run() {
 
-                        if(TextUtils.isEmpty(mStyleSp.getText().toString()) || mStyleSp.getText().equals("请选择")){
+                        if (TextUtils.isEmpty(mStyleSp.getText().toString()) || mStyleSp.getText().equals("请选择")) {
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -178,59 +174,59 @@ public class DialogQuexianEditFragment extends DialogFragment {
                             });
                             return;
                         }
-                        PictureQueXianInfo pictureQueXianInfo = new PictureQueXianInfo(mDistanceEdt.getText().toString(), mStyleSp.getText().toString(),
-                                mGradeSp.getText().toString(), mNameSp.getText().toString(),
+                        PipeDefectDetail pipeDefectDetail = new PipeDefectDetail(mDistanceEdt.getText().toString(), mStyleSp.getText().toString(),
+                                mNameSp.getText().toString(), mGradeSp.getText().toString(),
                                 mClockEdt.getText().toString(), mLengthEdt.getText().toString(),
                                 mDetailEdt.getText().toString());
                         if (mStyle_id == -1) {
-                            pictureQueXianInfo.setStyle("");
+                            pipeDefectDetail.setDefectType("");
                         }
                         if (mName_id == -1) {
-                            pictureQueXianInfo.setName("");
+                            pipeDefectDetail.setDefectCode("");
                         }
                         if (mGrade_id == -1) {
-                            pictureQueXianInfo.setGrade("");
+                            pipeDefectDetail.setDefectLevel("");
                         }
 
                         switch (mStyle_id) {
                             case 0:
-                                pictureQueXianInfo.setGrade("");
-                                pictureQueXianInfo.setName("");
+                                pipeDefectDetail.setDefectLevel("");
+                                pipeDefectDetail.setDefectCode("");
                                 break;
                             case 1:
-                                if(mName_id< 0 )
+                                if (mName_id < 0)
                                     break;
-                                pictureQueXianInfo.setName(mQuexianList.get(mStyle_id).getStyleList().get(mName_id).getName());
-                                if(mGrade_id <0)
+                                pipeDefectDetail.setDefectCode(mQuexianList.get(mStyle_id).getStyleList().get(mName_id).getName());
+                                if (mGrade_id < 0)
                                     break;
-                                pictureQueXianInfo.setGrade(String.valueOf(mQuexianList.get(mStyle_id).getStyleList().get(mName_id).getGradeList().get(mGrade_id).getLevel()));
+                                pipeDefectDetail.setDefectLevel(String.valueOf(mQuexianList.get(mStyle_id).getStyleList().get(mName_id).getGradeList().get(mGrade_id).getLevel()));
 
                                 break;
                             case 2:
-                                if(mName_id < 0)
+                                if (mName_id < 0)
                                     break;
-                                pictureQueXianInfo.setName(mQuexianList.get(mStyle_id).getStyleList().get(mName_id).getName());
-                                if(mGrade_id < 0 )
+                                pipeDefectDetail.setDefectCode(mQuexianList.get(mStyle_id).getStyleList().get(mName_id).getName());
+                                if (mGrade_id < 0)
                                     break;
-                                pictureQueXianInfo.setGrade(String.valueOf(mQuexianList.get(mStyle_id).getStyleList().get(mName_id).getGradeList().get(mGrade_id).getLevel()));
+                                pipeDefectDetail.setDefectLevel(String.valueOf(mQuexianList.get(mStyle_id).getStyleList().get(mName_id).getGradeList().get(mGrade_id).getLevel()));
 
                                 break;
                         }
 
-                        try {
-                            if (!isChangeInfo) {
-                                dbUtils.save(pictureQueXianInfo);
-                            } else {
-                                dbUtils.update(pictureQueXianInfo, WhereBuilder.b("id", "=", mPictureQueXianInfo.getId()));
-                            }
-
-                            LogUtil.log("数据库：保存完成","");
+//                        try {
+                        if (!isChangeInfo) {
                             if (listener != null)
-                                listener.finish();
-                            dismiss();
-                        } catch (DbException e) {
-                            e.printStackTrace();
+                                listener.save(pipeDefectDetail);
+                        } else {
+                            if (listener != null)
+                                listener.update(pipeDefectDetail);
                         }
+
+                        LogUtil.log("数据保存完成", "");
+                        dismiss();
+//                        } catch (DbException e) {
+//                            e.printStackTrace();
+//                        }
                     }
                 }).start();
                 break;
@@ -271,7 +267,7 @@ public class DialogQuexianEditFragment extends DialogFragment {
                 setNameAdapter(i);
                 if (i != 0)
                     mNameSp.setText(getResources().getString(R.string.pleaseChoose));
-                else{
+                else {
                     mName_id = -1;
                     mGrade_id = -1;
                 }
@@ -305,10 +301,10 @@ public class DialogQuexianEditFragment extends DialogFragment {
 
 
     private void initData() {
-        mDistanceEdt.setText(mPictureQueXianInfo.getDistance());
+        mDistanceEdt.setText(mPipeDefectDetail.getDistance());
 
         for (int i = 0; i < mQuexianList.size(); i++) {
-            if (mQuexianList.get(i).getName().equals(mPictureQueXianInfo.getStyle())) {
+            if (mQuexianList.get(i).getName().equals(mPipeDefectDetail.getDefectType())) {
                 mStyleSp.setText(mQuexianList.get(i).getName());
                 mStyle_id = i;
             }
@@ -317,22 +313,22 @@ public class DialogQuexianEditFragment extends DialogFragment {
         if (mStyle_id > 0) {
 
             for (int i = 0; i < mQuexianList.get(mStyle_id).getStyleList().size(); i++) {
-                if (mQuexianList.get(mStyle_id).getStyleList().get(i).getName().equals(mPictureQueXianInfo.getName())) {
+                if (mQuexianList.get(mStyle_id).getStyleList().get(i).getName().equals(mPipeDefectDetail.getDefectCode())) {
                     mNameSp.setText(mQuexianList.get(mStyle_id).getStyleList().get(i).getName());
                     mName_id = i;
                 }
             }
             if (mName_id != -1)
                 for (int i = 0; i < mQuexianList.get(mStyle_id).getStyleList().get(mName_id).getGradeList().size(); i++) {
-                    if (!TextUtils.isEmpty(mPictureQueXianInfo.getGrade()) && mQuexianList.get(mStyle_id).getStyleList().get(mName_id).getGradeList().get(i).getLevel() == Integer.valueOf(mPictureQueXianInfo.getGrade())) {
+                    if (!TextUtils.isEmpty(mPipeDefectDetail.getDefectLevel()) && mQuexianList.get(mStyle_id).getStyleList().get(mName_id).getGradeList().get(i).getLevel() == Integer.valueOf(mPipeDefectDetail.getDefectLevel())) {
                         mGradeSp.setText(String.valueOf(mQuexianList.get(mStyle_id).getStyleList().get(mName_id).getGradeList().get(i).getLevel()));
                         mGrade_id = i;
                     }
                 }
-            mClockEdt.setText(mPictureQueXianInfo.getClock());
+            mClockEdt.setText(mPipeDefectDetail.getClockExpression());
 
-            mLengthEdt.setText(mPictureQueXianInfo.getLength());
-            mDetailEdt.setText(mPictureQueXianInfo.getDetail());
+            mLengthEdt.setText(mPipeDefectDetail.getDefectLength());
+            mDetailEdt.setText(mPipeDefectDetail.getDefectDescription());
             if (mStyle_id > -1) {
                 mStyleAdapter.setStrings(mArray_style);
                 mStyleSp.setText(mArray_style[mStyle_id]);
@@ -340,7 +336,7 @@ public class DialogQuexianEditFragment extends DialogFragment {
                 mNameSp.setText(getResources().getString(R.string.pleaseChoose));
             }
             if (mName_id > -1) {
-                setNameAdapter(mName_id);
+//                setNameAdapter(mName_id);
                 mNameSp.setText(mQuexianList.get(mStyle_id).getStyleList().get(mName_id).getName());
                 setGradeAdapter(mName_id);
                 mGradeSp.setText(getResources().getString(R.string.pleaseChoose));
@@ -422,7 +418,9 @@ public class DialogQuexianEditFragment extends DialogFragment {
 
 
     public interface OnDataChangeListener {
-        void finish();
+        void save(PipeDefectDetail pipeDefectDetail);
+
+        void update(PipeDefectDetail pipeDefectDetail);
     }
 
     private OnDataChangeListener listener;

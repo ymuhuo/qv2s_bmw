@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bmw.peek2.R;
-import com.bmw.peek2.model.PictureQueXianInfo;
+import com.bmw.peek2.model.PipeDefectDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 public class PictureEditAdapter extends RecyclerView.Adapter<PictureEditAdapter.ViewHolder> {
 
     private Context context;
-    private List<PictureQueXianInfo> list;
+    private List<PipeDefectDetail> list;
     private List<Boolean> isClicks;
     private int choosePosition = -1;
 
@@ -32,7 +32,7 @@ public class PictureEditAdapter extends RecyclerView.Adapter<PictureEditAdapter.
         isClicks = new ArrayList<>();
     }
 
-    public void setList(List<PictureQueXianInfo> list) {
+    public void setList(List<PipeDefectDetail> list) {
         if (list != null) {
             this.list = list;
             isClicks.clear();
@@ -56,9 +56,9 @@ public class PictureEditAdapter extends RecyclerView.Adapter<PictureEditAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        holder.quxian_style.setText(list.get(position).getStyle());
-        holder.quexian_name.setText(list.get(position).getName());
-        holder.quexian_dengji.setText(list.get(position).getGrade());
+        holder.quxian_style.setText(list.get(position).getDefectType());
+        holder.quexian_name.setText(list.get(position).getDefectCode());
+        holder.quexian_dengji.setText(list.get(position).getDefectLevel());
 
         if (!isClicks.get(position)) {
             holder.container.setBackgroundColor(context.getResources().getColor(R.color.nothing));
@@ -115,7 +115,7 @@ public class PictureEditAdapter extends RecyclerView.Adapter<PictureEditAdapter.
         setItemClickBg(position);
     }
 
-    public void setChooseByTaskId(String id){
+    /*public void setChooseByTaskId(String id){
         if(id == null )
             return;
         for(int i=0;i<list.size();i++){
@@ -123,7 +123,7 @@ public class PictureEditAdapter extends RecyclerView.Adapter<PictureEditAdapter.
                 setItemClickBg(i);
             }
         }
-    }
+    }*/
 
     @Override
     public int getItemCount() {

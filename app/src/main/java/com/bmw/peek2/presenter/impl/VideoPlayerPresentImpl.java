@@ -4,27 +4,30 @@ import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.util.Log;
-import android.view.SurfaceHolder;
-import android.widget.MediaController;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.VideoView;
 
 import com.bmw.peek2.BaseApplication;
 import com.bmw.peek2.Constant;
+import com.bmw.peek2.model.VideoInfo;
+import com.bmw.peek2.model.CapturePicture;
 import com.bmw.peek2.model.Login_info;
+import com.bmw.peek2.model.PipeDefectImage;
 import com.bmw.peek2.presenter.VideoPlayerPresenter;
 import com.bmw.peek2.utils.BitmapUtils;
 import com.bmw.peek2.utils.FileUtil;
 import com.bmw.peek2.utils.LogUtil;
-import com.bmw.peek2.utils.UrlUtil;
+import com.bmw.peek2.utils.PullXmlParseUtil;
+import com.bmw.peek2.utils.StringUtils;
+import com.bmw.peek2.view.view.CustomPotSeekBar;
 import com.bmw.peek2.view.viewImpl.FileViewImpl;
 
 import org.MediaPlayer.PlayM4.Player;
-import org.MediaPlayer.PlayM4.PlayerCallBack;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static com.bmw.peek2.utils.TimeUtil.formatTime;
 
@@ -42,35 +45,112 @@ public class VideoPlayerPresentImpl implements VideoPlayerPresenter {
 
     private VideoView videoView;
     private long allVideoTime;
+    private CustomPotSeekBar mCustomPotSeekBar;
+    private VideoInfo mVideoInfo;
+    private ArrayList<String> mQuexianNames;
+    private ArrayList<Integer> mQuexianPlaces;
+    private ArrayList<PipeDefectImage> mPipeDefectImages;
 
-
-    public VideoPlayerPresentImpl(FileViewImpl fileView, String mPath, VideoView videoView, SeekBar seekBar) {
+    public VideoPlayerPresentImpl(final FileViewImpl fileView, String mPath, VideoView iVideoView, SeekBar seekBar, CustomPotSeekBar customPotSeekBar) {
         iPort = Player.getInstance().getPort();
         this.fileView = fileView;
         this.mPath = mPath;
-        this.videoView = videoView;
+        this.videoView = iVideoView;
         this.seekBar = seekBar;
+        mCustomPotSeekBar = customPotSeekBar;
+        mQuexianNames = new ArrayList<>();
+        mQuexianPlaces = new ArrayList<>();
+        mPipeDefectImages = new ArrayList<>();
+        initCustomPotSeekbar();
+
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 long time = mp.getDuration();
                 allVideoTime = time;
                 VideoPlayerPresentImpl.this.fileView.showAllPlayTime(formatTime(time, false));
-                VideoPlayerPresentImpl.this.seekBar.setMax((int) allVideoTime);
+//                VideoPlayerPresentImpl.this.seekBar.setMax((int) allVideoTime);
+                fileView.setSeekbarMax((int) allVideoTime);
+                if (mCustomPotSeekBar != null)
+                    mCustomPotSeekBar.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+//                            LogUtil.log("xml适当放松的立法 mQuexianNames = " + mQuexianNames.get(1) + " " + mQuexianPlaces.get(1));
+                            mCustomPotSeekBar.initData(mQuexianNames, mQuexianPlaces);
+//                            mCustomPotSeekBar.initData(null, null);
+                        }
+                    });
+
             }
         });
-        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+
+        {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 playStop();
             }
         });
+    }
 
+    private void initCustomPotSeekbar() {
+        mCustomPotSeekBar.setResponseOnTouch(new CustomPotSeekBar.ResponseOnTouch() {
+            @Override
+            public void onTouchResponse(int progress) {
+                fileView.setPlayPlace(mQuexianPlaces.get(progress));
+                fileView.showPicXmlInfo(mPipeDefectImages.get(progress));
+                seekBar.setProgress(mQuexianPlaces.get(progress));
+            }
+
+            @Override
+            public void onPlayToPot(int position) {
+                fileView.showPicXmlInfo(mPipeDefectImages.get(position));
+            }
+        });
     }
 
     @Override
     public void setPlayPath(String path) {
         mPath = path;
+
+        initPotPlace(mPath);
+
+    }
+
+    private void initPotPlace(String mPath) {
+        mQuexianPlaces.clear();
+        mQuexianNames.clear();
+        mPipeDefectImages.clear();
+        String xmlPath = FileUtil.replacePostFix(mPath, ".xml");
+        LogUtil.log("xml适当放松的立法 path = " + xmlPath);
+        final File file = new File(xmlPath);
+        if (file.exists()) {
+            mCustomPotSeekBar.setVisibility(View.VISIBLE);
+            BaseApplication.MAIN_EXECUTOR.execute(new Runnable() {
+                @Override
+                public void run() {
+                    mVideoInfo = PullXmlParseUtil.getVideoRecordXml(file.getAbsolutePath());
+                    ArrayList<CapturePicture> capturePictures = mVideoInfo.getCapturePictures();
+                    for (int i = 0; i < capturePictures.size(); i++) {
+                        CapturePicture capturePicture = capturePictures.get(i);
+                        if (!StringUtils.isStringEmpty(capturePicture.getDefectFilename())) {
+                            mQuexianNames.add(capturePicture.getPipedefectCode());
+                            int time = Integer.valueOf(capturePicture.getTimestamp());
+                            if (time >= 0)
+                                time = time - 1;
+                            mQuexianPlaces.add(time * 1000);
+                            PipeDefectImage pipeDefectImage = PullXmlParseUtil.getPicQueXianXml(capturePicture.getDefectFilename());
+                            mPipeDefectImages.add(pipeDefectImage);
+
+                        }
+                    }
+
+                }
+            });
+        }else {
+            mCustomPotSeekBar.setVisibility(View.GONE);
+        }
     }
 
     @Override

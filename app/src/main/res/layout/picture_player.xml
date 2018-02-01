@@ -1,69 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container_picturePlayer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_border_yellow"
     android:padding="3dp"
-    android:id="@+id/container_picturePlayer"
     android:visibility="visible">
 
 
-        <uk.co.senab.photoview.PhotoView
-            android:id="@+id/photoView_pic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_above="@+id/scrollQuexianContainer"/>
+    <uk.co.senab.photoview.PhotoView
+        android:id="@+id/photoView_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/scrollQuexianContainer"
+        android:layout_alignParentTop="true" />
 
 
-    <ScrollView
+    <RelativeLayout
         android:id="@+id/scrollQuexianContainer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/file_show_scroll_height"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
+
         <LinearLayout
             android:id="@+id/pic_show_bottom_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="4dp">
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tv_title_picQuexian"
-                android:layout_below="@+id/photoView_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/defectShow"
+                android:layout_below="@+id/photoView_pic"
                 android:textColor="@color/colorText"
-                android:textSize="@dimen/fileshow_quexian_title_textsize"/>
+                android:textSize="@dimen/fileshow_quexian_title_textsize" />
+
             <LinearLayout
+                android:id="@+id/ll_container_quexianShow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
+                <TextView
+                    style="@style/activity_pic_show_list"
+                    android:text="@string/capture_guandao_xuhao" />
+<!--
+                <TextView
+                    style="@style/activity_pic_show_list"
+                    android:text="@string/capture_guandao_id" />-->
 
                 <TextView
                     style="@style/activity_pic_show_list"
-                    android:text="@string/capture_guandao_id" />
-                <TextView
-                    style="@style/activity_pic_show_list"
                     android:text="@string/capture_quexian_style" />
+
                 <TextView
                     style="@style/activity_pic_show_list"
                     android:text="@string/capture_quexian_name" />
+
                 <TextView
                     style="@style/activity_pic_show_list"
                     android:text="@string/capture_quexian_grade" />
+
                 <TextView
                     style="@style/activity_pic_show_list"
                     android:text="@string/capture_quexian_distance" />
+
                 <TextView
                     style="@style/activity_pic_show_list"
                     android:text="@string/capture_quexian_clock" />
+
                 <TextView
                     style="@style/activity_pic_show_list"
                     android:text="@string/capture_quexian_length" />
             </LinearLayout>
+            <!--
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,8 +113,14 @@
                 android:gravity="left"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
+-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rcy_quexianDetailShow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
-    </ScrollView>
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

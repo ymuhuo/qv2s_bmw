@@ -8,10 +8,10 @@ android {
         applicationId "com.bmw.peek2"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 1025
-        versionName "V001F025D18012015"
+        versionCode 1028
+        versionName "V001F028D18012029"
     }
-    /*signingConfigs {
+    signingConfigs {
         release {
             storeFile file('C:\\Users\\admin\\.android\\bominwellKey.jks')
             storePassword 'bominwellandroid'
@@ -29,13 +29,13 @@ android {
         debug {
             signingConfig signingConfigs.release
         }
-    }*/
-    buildTypes {
+    }
+   /* buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
+    }*/
 }
 
 

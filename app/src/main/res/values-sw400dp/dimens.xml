@@ -62,7 +62,7 @@
     <dimen name="file_item_container_out_padding">3dp</dimen>
     <dimen name="file_item_textsize">10sp</dimen>
     <dimen name="pic_show_list">11sp</dimen>
-    <dimen name="fileshow_quexian_title_textsize">15sp</dimen>
+    <dimen name="fileshow_quexian_title_textsize">14sp</dimen>
     <dimen name="file_show_scroll_height">90dp</dimen>
     <dimen name="video_player_time_marginTop">20dp</dimen>
     <dimen name="video_player_seekbar_marginBottom">10dp</dimen>

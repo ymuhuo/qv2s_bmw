@@ -10,7 +10,6 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -24,7 +23,9 @@ import android.widget.Toast;
 import com.bmw.peek2.BaseApplication;
 import com.bmw.peek2.Constant;
 import com.bmw.peek2.R;
+import com.bmw.peek2.model.VideoInfo;
 import com.bmw.peek2.model.All_id_Info;
+import com.bmw.peek2.model.CapturePicture;
 import com.bmw.peek2.model.Login_info;
 import com.bmw.peek2.model.RecordTaskInfo;
 import com.bmw.peek2.presenter.BaiduMapLocatePresenter;
@@ -43,6 +44,8 @@ import com.bmw.peek2.utils.FragmentUtil;
 import com.bmw.peek2.utils.BatteryViewUtil;
 import com.bmw.peek2.utils.HkUtils;
 import com.bmw.peek2.utils.NetUtil;
+import com.bmw.peek2.utils.PullXmlParseUtil;
+import com.bmw.peek2.utils.StringUtils;
 import com.bmw.peek2.utils.SystemUtil;
 import com.bmw.peek2.utils.TimeUtil;
 import com.bmw.peek2.utils.UrlUtil;
@@ -64,11 +67,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hikvision.netsdk.HCNetSDK;
 import com.hikvision.netsdk.NET_DVR_TIME;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -115,6 +115,7 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
     private TextView tv_manufacturer;
     private TextView tv_manufacturer_title;
     private ImageView img_logo;
+    private TextView tvDeviceName;
 
     private ControlPresenter cPresenter;//socket控制执行者
     private boolean isHighBeam;
@@ -146,10 +147,15 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
     private boolean isResetRanging;
     private String mStartWell;
     private String mEndWell;
+    private RecordTaskInfo mRecordTaskInfo;
     private boolean mIsRecordHasData;
     private boolean isKanbanAddFinish;
     private boolean mIsCanShowBantou;
     private boolean mIsStop;
+    private boolean mIsLowStorage;
+    private VideoInfo mVideoInfo;
+    private CapturePicture mCapturePicture;
+    private long mCaptureTime;
 
 //    private boolean isErrorPause;
 
@@ -244,17 +250,26 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
         if (Constant.IS_NEUTRAL_VERSION) {
             tv_manufacturer = (TextView) findViewById(R.id.welcom_manufacturer);
             tv_manufacturer_title = (TextView) findViewById(R.id.welcom_manufacturer_title);
+            tvDeviceName = (TextView) findViewById(R.id.tv_deviceName);
+            tvDeviceName.setText("");
             img_logo = (ImageView) findViewById(R.id.bominwell_logo);
             img_logo.setVisibility(View.GONE);
             tv_manufacturer.setVisibility(View.GONE);
             tv_manufacturer_title.setVisibility(View.GONE);
             String manufacturerName = readFileMessage("mnt/sdcard/Android/obj/com.bmw.peek2s", "manufacturer.txt");
+            String deviceName = readFileMessage("mnt/sdcard/Android/obj/com.bmw.peek2s", "device.txt");
             if (manufacturerName == null || manufacturerName.isEmpty()) {
             } else {
                 tv_manufacturer.setText(manufacturerName);
                 tv_manufacturer.setVisibility(View.VISIBLE);
                 tv_manufacturer_title.setVisibility(View.VISIBLE);
             }
+            if (deviceName == null || TextUtils.isEmpty(deviceName)) {
+//                tvDeviceName.setText(getString(R.string.welcome_word));
+            } else {
+                tvDeviceName.setText(deviceName);
+            }
+
             showLogoImage();
         }
 
@@ -315,10 +330,10 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
         initBroadcastReceiver();
         initLightAdjust();
 
+
 //        hcNetSdkLogin.reLoginHaiKang();
         initShortCut();
     }
-
 
     @Override//回调改变提示信息
     public void iToast(final String msg) {
@@ -382,6 +397,11 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
             public void run() {
                 if (!Login_info.isPause) {
 
+                    if (mIsLowStorage && (recordTime % 30) == 0) {
+                        if (judgeIsLowStorageAndStopRecord())
+                            return;
+                    }
+
                     //断线情况下，中断录像计时
                     if (mIsRecordHasData && (System.currentTimeMillis() - recordLastTime > 1500)) {
                         mIsRecordHasData = false;
@@ -403,10 +423,41 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
                     if (isAddNewRecordKanBan && recordTime >= 30) {
                         stopRecord();
                     }
+
+
+                    if (recordTime != 0 && (recordTime % 1800) == 0) {
+                        judgeIsAlarmStorage();
+                    }
                 }
             }
         };
         recordTimer.schedule(recordTimerTask, 0, 1000);
+    }
+
+    private void judgeIsAlarmStorage() {
+        List<Float> diskSizeList = FileUtil.getDiskCapacity();
+        float freeDisk = diskSizeList.get(1);
+        log("录像判断剩余存储空间为：" + freeDisk);
+        if (freeDisk <= 0.5)
+            mIsLowStorage = true;
+    }
+
+    private boolean judgeIsLowStorageAndStopRecord() {
+
+        List<Float> diskSizeList = FileUtil.getDiskCapacity();
+        float freeDisk = diskSizeList.get(1);
+        log("低存储空间时判断剩余量：" + freeDisk);
+        if (freeDisk <= 0.12) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    btnClickRecords();
+                    toast("存储空间不足，录像已停止！");
+                }
+            });
+            return true;
+        }
+        return false;
     }
 
     private void initShortCut() {
@@ -774,6 +825,47 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
 
     private void btnClickRecords() {
         log("录像按钮！");
+
+
+        //获取可用内存大小
+        if (!isRecordOpen) {
+            List<Float> diskSizeList = FileUtil.getDiskCapacity();
+            float freeDisk = diskSizeList.get(1);
+            if (freeDisk > 0.15f && freeDisk < 0.5f) {
+                showLowDiskAlarm(freeDisk);
+            } else if (freeDisk <= 0.15f) {
+                toast("无法录像，剩余存储空间严重不足！");
+            } else {
+                if (mIsLowStorage)
+                    mIsLowStorage = false;
+                recordOperator();
+            }
+        } else {
+            recordOperator();
+        }
+    }
+
+    private void showLowDiskAlarm(float freeDisk) {
+        DialogNormalFragment dialogNormalFragment = DialogNormalFragment.getInstance("存储警告！剩余存储空间过低！"
+                , "警告，当前剩余存储空间为 " + (int) (freeDisk * 1024) + " M! 请及时删除无用文件，释放存储空间！"
+                , "继续录像", "取消录像", false);
+        dialogNormalFragment.setOnDialogFragmentClickListener(new OnDialogFragmentClickListener() {
+            @Override
+            public void sure() {
+                recordOperator();
+                if (!mIsLowStorage)
+                    mIsLowStorage = true;
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        });
+        FragmentUtil.showDialogFragment(getSupportFragmentManager(), dialogNormalFragment, "DialogNormalFragment");
+    }
+
+    private void recordOperator() {
         if (!isRecordOpen) {
 
             boolean isOpenRecordKanBan = BaseApplication.getSharedPreferences().getBoolean(Constant.KEY_IS_OPEN_RECORD_KANBAN, false);
@@ -903,6 +995,7 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
                 else {
                     String recordPath = getDesPath(recordName, true);
                     videoCutPresenter.record(recordPath, isAddNewRecordKanBan, kanbanPathDes);
+
                 }
             }
         });
@@ -1110,7 +1203,7 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
     }
 
     @Override
-    public void record(int i, boolean isRecord) {
+    public void record(int i, boolean isRecord, String recordPath) {
         switch (i) {
             case 0:
                 if (isRecord) {
@@ -1120,6 +1213,9 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
                         toast("开始录制看板");
                     } else {
                         toast("开始录像");
+                        mVideoInfo = new VideoInfo();
+                        mVideoInfo.setVideoFilename(recordPath);
+                        mVideoInfo.setRecordTaskInfo(mRecordTaskInfo);
                     }
                     if (recordComposite != null)
                         this.runOnUiThread(new Runnable() {
@@ -1146,6 +1242,20 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
                         toast(getString(R.string.record_kanban_stop));
                     } else {
                         toast(getString(R.string.record_stop));
+                        if (mVideoInfo != null) {
+                            log("xml = " + mVideoInfo.toString());
+                            BaseApplication.MAIN_EXECUTOR.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    PullXmlParseUtil.writeVideoRecordXml(mVideoInfo);
+                                    FileUtil.updateSystemLibFile(FileUtil.replacePostFix(mVideoInfo.getVideoFilename(), ".xml"));
+
+//                                    VideoInfo videoInfo = PullXmlParseUtil.getVideoRecordXml(FileUtil.replacePostFix(mVideoInfo.getVideoFilename(), ".xml"));
+//                                    log("获取到到：videoInfo = " + videoInfo);
+                                    mVideoInfo = null;
+                                }
+                            });
+                        }
                     }
                     mCharOverPresent.recordFinish();
                     if (recordComposite != null)
@@ -1185,6 +1295,7 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
                 mTaskPlace = null;
                 mStartWell = null;
                 mEndWell = null;
+                mRecordTaskInfo = null;
 
                 break;
         }
@@ -1192,6 +1303,9 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
 
     @Override
     public void capture(final String path) {
+        mCaptureTime = recordTime;
+        mCapturePicture = new CapturePicture();
+        mCapturePicture.setTimestamp(String.valueOf(mCaptureTime));
 
         if (BaseApplication.getSharedPreferences().getInt(Constant.KEY_FILE_NAME_MODEL_MINESET, 0) == 1) {
             int count = BaseApplication.getSharedPreferences().getInt(Constant.KEY_PICTURE_FILE_COUNT, 1);
@@ -1209,7 +1323,7 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
                         Intent intent = new Intent(PreviewActivity.this, PictureEditActivity.class);
                         intent.putExtra("path", path);
                         intent.putExtra("batteryNum", mBatteryNum);
-                        startActivity(intent);
+                        startActivityForResult(intent, 2);
                         dialog.dismiss();
                     }
                 });
@@ -1217,6 +1331,13 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
                 dialog.setCancelClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if (mVideoInfo != null) {
+                            mCapturePicture.setFilename(path);
+                            mCapturePicture.setDefectFilename(null);
+                            if (mVideoInfo != null)
+                                mVideoInfo.addCapturePic(mCapturePicture);
+                        }
+
                         dialog.dismiss();
 //                        FileUtil.updateSystemLibFile(path);
                     }
@@ -1316,6 +1437,8 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
             case 1:
                 if (data != null) {
                     final RecordTaskInfo recordTaskInfo = (RecordTaskInfo) data.getSerializableExtra("record_head");
+
+                    mRecordTaskInfo = recordTaskInfo;
                     if (kanbanPathDes == null) {
                         if (BaseApplication.getSharedPreferences().getInt(Constant.KEY_FILE_NAME_MODEL_MINESET, 0) != 2 || isAddNewRecordKanBan) {
                             setZiFuDieJia(recordTaskInfo);
@@ -1370,6 +1493,8 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
                     mTaskPlace = recordTaskInfo.getTask_place();
                     mStartWell = recordTaskInfo.getTask_start();
                     mEndWell = recordTaskInfo.getTask_end();
+
+
                 }
                 String recordName = getDesPathName(mTaskName, mTaskPlace, mStartWell, mEndWell);
                 if (BaseApplication.getSharedPreferences().getInt(Constant.KEY_FILE_NAME_MODEL_MINESET, 0) == 2 && !isAddNewRecordKanBan)
@@ -1379,6 +1504,22 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
                     videoCutPresenter.record(recordPath, isAddNewRecordKanBan, kanbanPathDes);
                 }
                 break;
+            case 2:
+                if (data != null) {
+                    String picPath = data.getStringExtra(Constant.KEY_ACTIVITY_RESULT_PIC_PATH);
+                    String xmlPath = data.getStringExtra(Constant.KEY_ACTIVITY_RESULT_XML_PATH);
+                    String quexianName = data.getStringExtra(Constant.KEY_ACTIVITY_RESULT_PIC_QUEXIAN_CODE);
+                    log("picPath = " + picPath + " \n xmlPath = " + xmlPath);
+                    if (mCapturePicture != null) {
+                        mCapturePicture.setFilename(picPath);
+                        mCapturePicture.setDefectFilename(xmlPath);
+                        mCapturePicture.setPipedefectCode(quexianName);
+                        if (mVideoInfo != null)
+                            mVideoInfo.addCapturePic(mCapturePicture);
+                    }
+                }
+
+                break;
         }
     }
 
@@ -1386,16 +1527,16 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
 
         if (recordTaskInfo != null) {
             StringBuilder taskNameAId = new StringBuilder();
-            if (!TextUtils.isEmpty(recordTaskInfo.getTask_name()) || !TextUtils.isEmpty(recordTaskInfo.getTask_id())) {
+            if (!StringUtils.isStringEmpty(recordTaskInfo.getTask_name()) || !StringUtils.isStringEmpty(recordTaskInfo.getTask_id())) {
                 if (Login_info.getInstance().isShowFirstName())
                     taskNameAId.append(getResources().getString(R.string.task_name_id));
                 taskNameAId.append(recordTaskInfo.getTask_name());
-                if (!TextUtils.isEmpty(recordTaskInfo.getTask_id()))
+                if (!StringUtils.isStringEmpty(recordTaskInfo.getTask_id()))
                     taskNameAId.append("/").append(recordTaskInfo.getTask_id());
             }
 
             StringBuilder taskPlace = new StringBuilder();
-            if (!TextUtils.isEmpty(recordTaskInfo.getTask_place())) {
+            if (!StringUtils.isStringEmpty(recordTaskInfo.getTask_place())) {
                 if (Login_info.getInstance().isShowFirstName())
                     taskPlace.append(getResources().getString(R.string.record_task_place_e));
                 taskPlace.append(recordTaskInfo.getTask_place()).
@@ -1410,6 +1551,7 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
                     timeBuilder.append(net_dvr_time.dwYear).append("年")
                             .append(net_dvr_time.dwMonth).append("月")
                             .append(net_dvr_time.dwDay).append("日");
+                    mRecordTaskInfo.setTask_date(timeBuilder.toString());
                     if (Login_info.getInstance().isShowFirstName()) {
                         taskPlace.append(getResources().getString(R.string.task_date));
                     }
@@ -1418,7 +1560,7 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
             }
 
             StringBuilder taskWellStar2End = new StringBuilder();
-            if (!TextUtils.isEmpty(recordTaskInfo.getTask_start()) || !TextUtils.isEmpty(recordTaskInfo.getTask_end())) {
+            if (!StringUtils.isStringEmpty(recordTaskInfo.getTask_start()) || !StringUtils.isStringEmpty(recordTaskInfo.getTask_end())) {
                 if (Login_info.getInstance().isShowFirstName())
                     taskWellStar2End.append(getResources().getString(R.string.task_well_start_end));
                 taskWellStar2End.append(recordTaskInfo.getTask_start()).
@@ -1427,26 +1569,26 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
             }
 
             StringBuilder taskDirectAGuancai = new StringBuilder();
-            if (!TextUtils.isEmpty(recordTaskInfo.getTask_direction())) {
+            if (!StringUtils.isStringEmpty(recordTaskInfo.getTask_direction())) {
                 if (Login_info.getInstance().isShowFirstName())
                     taskDirectAGuancai.append(getResources().getString(R.string.record_task_direction_e));
                 taskDirectAGuancai.append(recordTaskInfo.getTask_direction()).
                         append(" ");
             }
-            if (!TextUtils.isEmpty(recordTaskInfo.getTask_guancai())) {
+            if (!StringUtils.isStringEmpty(recordTaskInfo.getTask_guancai())) {
                 if (Login_info.getInstance().isShowFirstName())
                     taskDirectAGuancai.append(getResources().getString(R.string.record_task_guancai_e));
                 taskDirectAGuancai.append(recordTaskInfo.getTask_guancai()).
                         append(" ");
             }
             StringBuilder taskSortADiameter = new StringBuilder();
-            if (!TextUtils.isEmpty(recordTaskInfo.getTask_sort())) {
+            if (!StringUtils.isStringEmpty(recordTaskInfo.getTask_sort())) {
                 if (Login_info.getInstance().isShowFirstName())
                     taskSortADiameter.append(getResources().getString(R.string.record_task_sort_e));
                 taskSortADiameter.append(recordTaskInfo.getTask_sort()).
                         append(" ");
             }
-            if (!TextUtils.isEmpty(recordTaskInfo.getTask_diameter())) {
+            if (!StringUtils.isStringEmpty(recordTaskInfo.getTask_diameter())) {
                 if (Login_info.getInstance().isShowFirstName())
                     taskSortADiameter.append(getResources().getString(R.string.task_diameter));
                 taskSortADiameter.append(recordTaskInfo.getTask_diameter()).
@@ -1455,13 +1597,13 @@ public class PreviewActivity extends BaseActivity implements PreviewImpl {
 
             StringBuilder taskPlaceAPeople = new StringBuilder();
 
-            if (!TextUtils.isEmpty(recordTaskInfo.getTask_computer())) {
+            if (!StringUtils.isStringEmpty(recordTaskInfo.getTask_computer())) {
                 if (Login_info.getInstance().isShowFirstName())
                     taskPlaceAPeople.append(getResources().getString(R.string.record_task_computer_e));
                 taskPlaceAPeople.append(recordTaskInfo.getTask_computer()).
                         append(" ");
             }
-            if (!TextUtils.isEmpty(recordTaskInfo.getTask_people())) {
+            if (!StringUtils.isStringEmpty(recordTaskInfo.getTask_people())) {
                 if (Login_info.getInstance().isShowFirstName())
                     taskPlaceAPeople.append(getResources().getString(R.string.record_task_people_e));
                 taskPlaceAPeople.append(recordTaskInfo.getTask_people());

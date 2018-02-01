@@ -217,6 +217,7 @@ public class FilePresenterImpl implements FilePresenter {
                         }
                         if (isDelete) {
                             files.get(i).delete();
+                            FileUtil.updateSystemLibFile(files.get(i).getAbsolutePath());
                             files.remove(i);
                         }
                     }
@@ -225,6 +226,34 @@ public class FilePresenterImpl implements FilePresenter {
             }
         } else {
             files = UrlUtil.getFileUtils(FileUtil.getFileSavePath() + Login_info.local_video_path);
+            List<File> videoFiles = new ArrayList<>();
+            if (files != null) {
+                for (int i = 0; i < files.size(); i++) {
+                    String name = files.get(i).getName();
+                    name = name.substring(name.lastIndexOf("."), name.length());
+                    if (name.equals(".avi") || name.equals(".AVI") || name.equals(".mp4") || name.equals("MP4")) {
+                        videoFiles.add(files.get(i));
+                    } else {
+                        boolean isDelete = true;
+                        for (File f : files) {
+                            String fName = files.get(i).getName();
+                            fName = fName.substring(fName.lastIndexOf("/") + 1, fName.lastIndexOf("."));
+                            String tName = f.getName();
+                            String tNameF = tName.substring(tName.lastIndexOf("/") + 1, tName.lastIndexOf("."));
+                            String tNameE = tName.substring(tName.lastIndexOf("."), tName.length());
+                            if (tNameF.equals(fName) && !tNameE.equals(".xml")) {
+                                isDelete = false;
+                            }
+                        }
+                        if (isDelete) {
+                            files.get(i).delete();
+                            FileUtil.updateSystemLibFile(files.get(i).getAbsolutePath());
+                            files.remove(i);
+                        }
+                    }
+                }
+                files = videoFiles;
+            }
         }
         if (files != null) {
             FileComparator fileComparator = new FileComparator();
@@ -232,7 +261,7 @@ public class FilePresenterImpl implements FilePresenter {
         }
 
         if (isPicture) {
-            if (files != null )
+            if (files != null)
                 for (int i = 0; i < files.size(); i++) {
                     String fileName = files.get(i).getName();
                     int indexOf_ = fileName.indexOf("-");
@@ -252,7 +281,7 @@ public class FilePresenterImpl implements FilePresenter {
                     }
                 }
         } else {
-            if (files != null )
+            if (files != null)
                 for (int i = 0; i < files.size(); i++) {
                     String fileName = files.get(i).getName();
                     int indexOf_ = fileName.indexOf("-");

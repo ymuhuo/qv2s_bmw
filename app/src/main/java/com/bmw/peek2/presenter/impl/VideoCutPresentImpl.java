@@ -64,7 +64,7 @@ public class VideoCutPresentImpl implements VideoCutPresenter {
         if (!isRecord) {
             if (!NetUtil.getInstance().isVideoConnect()) {
                 if (preview != null) {
-                    preview.record(0, false);
+                    preview.record(0, false, null);
                 }
                 return;
             }
@@ -78,7 +78,7 @@ public class VideoCutPresentImpl implements VideoCutPresenter {
                 sb.append(Login_info.local_kanban_path);
                 String kanbanName = BaseApplication.context().getKanbanName();
 
-                File file = new File(sb.toString()+kanbanName);
+                File file = new File(sb.toString() + kanbanName);
                 if (file.exists()) {
                     int file_count = 0;
                     while (file.exists()) {
@@ -115,8 +115,8 @@ public class VideoCutPresentImpl implements VideoCutPresenter {
                     recordName = recordName + "_" + file_count;
                 }
                 recordName = recordName + ".avi";
-                startRecord(recordName, kanbanPath);
                 videoPath = recordName;
+                startRecord(recordName, kanbanPath);
             }
 
         } else {
@@ -149,7 +149,7 @@ public class VideoCutPresentImpl implements VideoCutPresenter {
 
     private void endRecordBack(boolean b) {
         if (preview != null) {
-            preview.record(1, b);
+            preview.record(1, b, null);
         }
         isRecord = false;
     }
@@ -157,7 +157,7 @@ public class VideoCutPresentImpl implements VideoCutPresenter {
     private void startRecordBack(String kanbanPathDes) {
 
         if (preview != null) {
-            preview.record(0, true);
+            preview.record(0, true,videoPath);
         }
         isRecord = true;
         if (kanbanPathDes == null) {
@@ -250,7 +250,7 @@ public class VideoCutPresentImpl implements VideoCutPresenter {
     private void startFailed() {
         LogUtil.error("海康：抓拍：开始录制失败：", HCNetSDK.getInstance().NET_DVR_GetLastError());
         if (preview != null) {
-            preview.record(0, false);
+            preview.record(0, false, null);
         }
     }
 

@@ -8,7 +8,7 @@ import android.support.v4.app.DialogFragment;
  */
 public interface PreviewImpl {
     void iToast(String msg);
-    void record(int which,boolean isOk);
+    void record(int which,boolean isOk,String recordPath);
     void capture(String path);
     void initHCNetSdkFaild();
     void loginSuccessful();

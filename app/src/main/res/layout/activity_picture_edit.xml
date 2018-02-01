@@ -41,7 +41,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_margin="3dp"
             android:layout_toLeftOf="@+id/pic_edit_rightMenu_container"
@@ -60,7 +60,7 @@
             <ScrollView
                 android:id="@+id/pic_edit_imgBottom_container"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/file_show_scroll_height"
+                android:layout_height="10dp"
                 android:layout_alignParentBottom="true">
 
                 <LinearLayout
@@ -68,7 +68,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tv_title_picQuexian"

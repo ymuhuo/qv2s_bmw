@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -32,6 +33,7 @@ import com.bmw.peek2.BaseApplication;
 import com.bmw.peek2.Constant;
 import com.bmw.peek2.R;
 import com.bmw.peek2.model.Login_info;
+import com.bmw.peek2.model.PipeDefectImage;
 import com.bmw.peek2.presenter.VideoPlayerPresenter;
 import com.bmw.peek2.presenter.impl.FilePresenterImpl;
 import com.bmw.peek2.presenter.impl.VideoPlayerPresentImpl;
@@ -41,12 +43,17 @@ import com.bmw.peek2.utils.LogUtil;
 import com.bmw.peek2.utils.BatteryViewUtil;
 import com.bmw.peek2.utils.NumberUtil;
 import com.bmw.peek2.utils.PullXmlParseUtil;
+import com.bmw.peek2.utils.StringUtils;
 import com.bmw.peek2.view.adapter.FileListAdapter;
+import com.bmw.peek2.view.adapter.PicQueXianShowAdapter;
+import com.bmw.peek2.view.adapter.PicQueXianShowInVideoAdapter;
 import com.bmw.peek2.view.dialog.Capture_tishi_Dialog;
 import com.bmw.peek2.view.fragments.DialogEdtNormalFragment;
 import com.bmw.peek2.view.fragments.DialogNormalFragment;
 import com.bmw.peek2.view.fragments.OnDialogFragmentClickListener;
 import com.bmw.peek2.view.view.CompositeImageText;
+import com.bmw.peek2.view.view.CustomPotSeekBar;
+import com.bmw.peek2.view.view.MyVideoView;
 import com.bmw.peek2.view.viewImpl.FileViewImpl;
 
 import java.io.File;
@@ -68,6 +75,7 @@ public class FileShowNewActivity extends BaseActivity implements FileViewImpl {
     PhotoView photoViewPic;
     @Bind(R.id.recyclerView_pic)
     RecyclerView recyclerViewPic;
+    /*
     @Bind(R.id.pic_show_guandaoId)
     TextView mGuandaoId;
     @Bind(R.id.pic_show_style)
@@ -84,6 +92,13 @@ public class FileShowNewActivity extends BaseActivity implements FileViewImpl {
     TextView mLength;
     @Bind(R.id.pic_show_detail)
     TextView mDetail;
+    */
+    @Bind(R.id.ll_container_quexianShow)
+    LinearLayout mLlContainerQuexianShow;
+    @Bind(R.id.tv_title_picQuexian)
+    TextView mTvQuexianCount;
+    @Bind(R.id.rcy_quexianDetailShow)
+    RecyclerView mQuexianShow;
     @Bind(R.id.pic_show_bottom_container)
     LinearLayout picShowBottomContainer;
     @Bind(R.id.search_edit)
@@ -126,6 +141,15 @@ public class FileShowNewActivity extends BaseActivity implements FileViewImpl {
     CompositeImageText cit_file_all_choose;
     @Bind(R.id.cit_file_copy)
     CompositeImageText cit_file_copy;
+    @Bind(R.id.cpsb_picPot)
+    CustomPotSeekBar mCustomPotSeekBar;
+    @Bind(R.id.ff_container_centerShow)
+    View mXmlInfoContainer;
+    @Bind(R.id.tv_quexian_show_invideo)
+    TextView mTvXmlInfoShow;
+    @Bind(R.id.recy_picQuexianShowInVideo)
+    RecyclerView mRecyPicQuexianShowInVideo;
+
 
     private FilePresenterImpl filePresenter;
     //    private Bitmap mBitmap;
@@ -183,15 +207,34 @@ public class FileShowNewActivity extends BaseActivity implements FileViewImpl {
         initSearch();
 
         if (!isPicture) {
-            videoPlayerPresenter = new VideoPlayerPresentImpl(this, null, playerSurface, playerSeekbar);
+            videoPlayerPresenter = new VideoPlayerPresentImpl(this, null, playerSurface, playerSeekbar, mCustomPotSeekBar);
 
             setSeekbarMove();
 
+            initPicRecycleView();
 
+        } else {
+            initQuexianRecyclerView();
         }
 
         filePresenter = new FilePresenterImpl(adapter, isPicture, this, context(), videoPlayerPresenter); //初始化presenter
         initAdapter();
+
+    }
+
+    private void initPicRecycleView() {
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecyPicQuexianShowInVideo.setLayoutManager(manager);
+        PicQueXianShowInVideoAdapter adapter = new PicQueXianShowInVideoAdapter(this);
+        mRecyPicQuexianShowInVideo.setAdapter(adapter);
+    }
+
+    private void initQuexianRecyclerView() {
+        mQuexianShow.setLayoutManager(new LinearLayoutManager(this));
+        PicQueXianShowAdapter mPicQueXianAdapter = new PicQueXianShowAdapter(this);
+        mQuexianShow.setAdapter(mPicQueXianAdapter);
+
 
     }
 
@@ -303,10 +346,14 @@ public class FileShowNewActivity extends BaseActivity implements FileViewImpl {
             R.id.cit_file_delete,
             R.id.cit_file_copy,
             R.id.cit_file_all_choose,
-            R.id.cit_file_edit_cancel
+            R.id.cit_file_edit_cancel,
+            R.id.img_cancle_inVisible
     })
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.img_cancle_inVisible:
+                hideXmlContainer();
+                break;
             case R.id.compositeImgTv_pic_edit:
                 mRl_file_edit_normal.setVisibility(View.GONE);
                 mLl_file_edit.setVisibility(View.VISIBLE);
@@ -696,6 +743,14 @@ public class FileShowNewActivity extends BaseActivity implements FileViewImpl {
         });
     }
 
+    @Override
+    public void setSeekbarMax(int max) {
+        if (playerSeekbar != null) {
+            playerSeekbar.setMax(max);
+            mCustomPotSeekBar.setMax(max);
+        }
+    }
+
 
     private void initSearch() {
         searchEdit.addTextChangedListener(new TextWatcher() {
@@ -736,35 +791,44 @@ public class FileShowNewActivity extends BaseActivity implements FileViewImpl {
                 imageLoader.putBitmap(mBitmap, path);
             }
             photoViewPic.setImageBitmap(mBitmap);
-            getDataFromXml(path);
+            if (isPicture)
+                getDataFromXml(path);
         } else {
             photoViewPic.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.background)));
         }
     }
 
     private void getDataFromXml(String xmlPath) {
-        mClock.setText("");
-        mDetail.setText("");
-        mDistance.setText("");
-        mGrade.setText("");
-        mGuandaoId.setText("");
-        mLength.setText("");
-        mName.setText("");
-        mStyle.setText("");
+
+
         if (xmlPath != null) {
             xmlPath = xmlPath.substring(0, xmlPath.lastIndexOf(".")) + ".xml";
 
             File xmlFile = new File(xmlPath);
             if (xmlFile.exists()) {
-                Map<String, String> map = PullXmlParseUtil.parsePicXml(xmlFile);
-                mClock.setText(map.get(PullXmlParseUtil.ClockExpression));
-                mDetail.setText(map.get(PullXmlParseUtil.DefectDescription));
-                mDistance.setText(map.get(PullXmlParseUtil.Distance));
-                mGrade.setText(map.get(PullXmlParseUtil.DefectLevel));
-                mGuandaoId.setText(map.get(PullXmlParseUtil.PipeSection));
-                mLength.setText(map.get(PullXmlParseUtil.DefectLength));
-                mName.setText(map.get(PullXmlParseUtil.DefectCode));
-                mStyle.setText(map.get(PullXmlParseUtil.DefectType));
+                PipeDefectImage pipeDefectImage = PullXmlParseUtil.getPicQueXianXml(xmlPath);
+                if (pipeDefectImage != null) {
+//                    mQuexianShow.setVisibility(View.VISIBLE);
+                    String pipeSection = pipeDefectImage.getPipeSection();
+                    pipeSection = StringUtils.isStringEmpty(pipeSection) ? "" : getString(R.string.guandaohaowei).replace("${guandaohao}", pipeSection);
+                    mTvQuexianCount.setText(
+                            getString(R.string.pic_quexian_count)
+                                    .replace(
+                                            "${count}"
+                                            , String.valueOf(pipeDefectImage.getPipeDefectDetails().size())
+                                    ).replace("${guandaohao}", pipeSection)
+                    );
+                    mLlContainerQuexianShow.setVisibility(View.VISIBLE);
+                    PicQueXianShowAdapter adapter = (PicQueXianShowAdapter) mQuexianShow.getAdapter();
+//                    adapter.setmPipeSection(pipeDefectImage.getPipeSection());
+                    adapter.setmPipeDefectDetails(pipeDefectImage.getPipeDefectDetails());
+                }
+            } else {
+//                mQuexianShow.setVisibility(View.GONE);
+                mLlContainerQuexianShow.setVisibility(View.GONE);
+                mTvQuexianCount.setText("");
+                PicQueXianShowAdapter adapter = (PicQueXianShowAdapter) mQuexianShow.getAdapter();
+                adapter.resetAllData();
             }
         }
     }
@@ -783,6 +847,11 @@ public class FileShowNewActivity extends BaseActivity implements FileViewImpl {
     @Override
     public void setSeekbarProgress(int progress) {
         playerSeekbar.setProgress(progress);
+        setPotSeekbarProgress(progress);
+    }
+
+    private void setPotSeekbarProgress(int progress) {
+        mCustomPotSeekBar.setProgress(progress);
     }
 
     public void showPlayFailed() {
@@ -810,6 +879,8 @@ public class FileShowNewActivity extends BaseActivity implements FileViewImpl {
         }
     }
 
+    private long mLastPotSBShowTime;
+
     private void setSeekbarMove() {
         playerSeekbar.setOnSeekBarChangeListener(change);
         playerSeekbar.setMax(1000);
@@ -817,6 +888,18 @@ public class FileShowNewActivity extends BaseActivity implements FileViewImpl {
             @Override
             public void run() {
                 while (!isStop) {
+                    log("lastTime = " + mLastPotSBShowTime + " currentTime " + System.currentTimeMillis());
+
+                    if (mXmlInfoContainer.isShown() && System.currentTimeMillis() - mLastPotSBShowTime > 3000) {
+                        if (playerSurface.isPlaying()) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    hideXmlContainer();
+                                }
+                            });
+                        }
+                    }
 
 
                     if (!mSeekbarStartTouch) {
@@ -837,7 +920,8 @@ public class FileShowNewActivity extends BaseActivity implements FileViewImpl {
                                     playerSurface.pause();
                                     int currentP = playerSurface.getCurrentPosition();
                                     setPlayPlace(currentP + speedfast / 2 * 600);
-                                    playerSeekbar.setProgress(currentP + speedfast / 2 * 1100);
+                                    setSeekbarProgress(currentP + speedfast / 2 * 1100);
+//                                    playerSeekbar.setProgress(currentP + speedfast / 2 * 1100);
                                     if (playerSeekbar.getMax() <= currentP + speedfast / 2 * 1100) {
                                         videoPlayerPresenter.playStop();
                                     }
@@ -857,14 +941,16 @@ public class FileShowNewActivity extends BaseActivity implements FileViewImpl {
                                 @Override
                                 public void run() {
                                     playerSurface.start();
-                                    playerSeekbar.setProgress(finalCurrentPlace);
+                                    setSeekbarProgress(finalCurrentPlace);
+//                                    playerSeekbar.setProgress(finalCurrentPlace);
 
                                 }
                             });
                         }
 
                         if (speedfast == 1 && speedSlow == 1 && videoPlayerPresenter.isPlaying()) {
-                            playerSeekbar.setProgress(currentPlace);
+                            setSeekbarProgress(currentPlace);
+//                            playerSeekbar.setProgress(currentPlace);
                         }
                         tvVideoCurrentTime.post(new Runnable() {
                             @Override
@@ -896,7 +982,9 @@ public class FileShowNewActivity extends BaseActivity implements FileViewImpl {
                 tvVideoCurrentTime.setText("00:00");
                 tvVideoPlaySpeed.setText("1X");
                 playStart.setImageResource(R.mipmap.play_start);
-                playerSeekbar.setProgress(0);
+//                playerSeekbar.setProgress(0);
+                setSeekbarProgress(0);
+                hideXmlContainer();
             }
         });
     }
@@ -928,11 +1016,45 @@ public class FileShowNewActivity extends BaseActivity implements FileViewImpl {
         }
     };
 
-    private void setPlayPlace(int progress) {
-        videoPlayerPresenter.setPlayPlace(progress);
-        getCurrentTime();
+    public void setPlayPlace(final int progress) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setPotSeekbarProgress(progress);
+                videoPlayerPresenter.setPlayPlace(progress);
+                getCurrentTime();
 
-        mSeekbarStartTouch = false;
+                mSeekbarStartTouch = false;
+            }
+        });
+
+    }
+
+    private void hideXmlContainer() {
+        mXmlInfoContainer.setVisibility(View.GONE);
+//        mIsXmlContainerFirstShow = true;
+    }
+
+
+    @Override
+    public void showPicXmlInfo(final PipeDefectImage pipeDefectImage) {
+        mLastPotSBShowTime = System.currentTimeMillis();
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                StringBuilder mainBuilder = new StringBuilder();
+                if (pipeDefectImage.getPipeSection() != null)
+                    mainBuilder.append("管道号:").append(pipeDefectImage.getPipeSection()).append("  ");
+                if (pipeDefectImage.getPipeDefectDetails().size() > 0)
+                    mainBuilder.append("缺陷点:").append(pipeDefectImage.getPipeDefectDetails().size()).append("处   详情如下:\n");
+                mTvXmlInfoShow.setText(mainBuilder.toString());
+                mXmlInfoContainer.setVisibility(View.VISIBLE);
+                PicQueXianShowInVideoAdapter adapter = (PicQueXianShowInVideoAdapter) mRecyPicQuexianShowInVideo.getAdapter();
+                adapter.setmPipeDefectDetails(pipeDefectImage.getPipeDefectDetails());
+            }
+        });
+
     }
 
     private void getCurrentTime() {

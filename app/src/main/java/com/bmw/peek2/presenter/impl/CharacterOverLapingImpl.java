@@ -73,7 +73,7 @@ public class CharacterOverLapingImpl implements CharacterOverLapingPresenter {
 
     @Override
     public void recordFinish() {
-        if (BaseApplication.getSharedPreferences().getBoolean(Constant.KEY_IS_RECORDHEADER_ALWAYS_SHOW, false)) {
+        if (BaseApplication.getSharedPreferences().getBoolean(Constant.KEY_IS_RECORDHEADER_ALWAYS_SHOW, Constant.IS_RECORDHEADER_ALWAYS_SHOW_DEFAULT)) {
             mTitles[0] = "";
             mTitles[1] = "";
         }
@@ -82,7 +82,7 @@ public class CharacterOverLapingImpl implements CharacterOverLapingPresenter {
     @Override
     public void setAlwaysShowInfo(String taskName, String taskId, String startWell, String endWell, String task_guancai, String task_diameter) {
 
-        if (BaseApplication.getSharedPreferences().getBoolean(Constant.KEY_IS_RECORDHEADER_ALWAYS_SHOW, false)) {
+        if (BaseApplication.getSharedPreferences().getBoolean(Constant.KEY_IS_RECORDHEADER_ALWAYS_SHOW, Constant.IS_RECORDHEADER_ALWAYS_SHOW_DEFAULT)) {
             StringBuilder firstBuilder = new StringBuilder();
             StringBuilder secondBuilder = new StringBuilder();
             if (!TextUtils.isEmpty(taskName))
@@ -108,7 +108,7 @@ public class CharacterOverLapingImpl implements CharacterOverLapingPresenter {
         if (All_id_Info.getInstance().getM_iLogID() < 0 || msg == null || msg.length != 4)
             return;
 
-        if (BaseApplication.getSharedPreferences().getBoolean(Constant.KEY_IS_RECORDHEADER_ALWAYS_SHOW, false)) {
+        if (BaseApplication.getSharedPreferences().getBoolean(Constant.KEY_IS_RECORDHEADER_ALWAYS_SHOW, Constant.IS_RECORDHEADER_ALWAYS_SHOW_DEFAULT)) {
             mTitles[2] = msg[0];
             mTitles[3] = msg[1];
         } else {

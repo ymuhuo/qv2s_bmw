@@ -122,7 +122,7 @@ public class DialogRecordSetFragment extends DialogFragment {
     }
 
     private void initSwitchRecordHeader() {
-        switchShowRecordHeader.setChecked(BaseApplication.getSharedPreferences().getBoolean(Constant.KEY_IS_RECORDHEADER_ALWAYS_SHOW, false));
+        switchShowRecordHeader.setChecked(BaseApplication.getSharedPreferences().getBoolean(Constant.KEY_IS_RECORDHEADER_ALWAYS_SHOW, Constant.IS_RECORDHEADER_ALWAYS_SHOW_DEFAULT));
         switchShowRecordHeader.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

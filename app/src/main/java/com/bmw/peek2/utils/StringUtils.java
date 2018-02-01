@@ -16,4 +16,11 @@ public class StringUtils {
         }
         return count;
     }
+
+
+    public static boolean isStringEmpty(String str) {
+        if (str != null && !str.equals(""))
+            return false;
+        return true;
+    }
 }

@@ -16,6 +16,7 @@ import com.bmw.peek2.BaseApplication;
 import com.bmw.peek2.Constant;
 import com.bmw.peek2.R;
 import com.bmw.peek2.utils.FileUtil;
+import com.bmw.peek2.utils.LogUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -212,6 +213,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                 holder.bg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        LogUtil.log("clicking porition = "+ position);
 
                         mOneChoose = position;
                         notifyDataSetChanged();

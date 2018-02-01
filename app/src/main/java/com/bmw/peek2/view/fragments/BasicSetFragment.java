@@ -55,6 +55,7 @@ import butterknife.OnLongClick;
 import cn.bmob.v3.Bmob;
 
 import static cn.bmob.v3.Bmob.getApplicationContext;
+import static com.bmw.peek2.utils.Manufacturer_FileUtil.readFileMessage;
 
 /**
  * Created by admin on 2017/4/7.
@@ -258,17 +259,20 @@ public class BasicSetFragment extends Fragment {
 
     private void setManufacturerName() {
         String manufacturerName = Manufacturer_FileUtil.readFileMessage("mnt/sdcard/Android/obj/com.bmw.peek2s", "manufacturer.txt");
+        String deviceName = readFileMessage("mnt/sdcard/Android/obj/com.bmw.peek2s", "device.txt");
         if (manufacturerName == null)
             manufacturerName = "";
+        if (deviceName == null)
+            deviceName = "";
         DialogManufacturerFragment dialogEdtNormalFragment = DialogManufacturerFragment.getInstance("正在修改生产商名称！"
-                , manufacturerName, Constant.LOGO_PATH, null, null, false);
+                , manufacturerName, Constant.LOGO_PATH, deviceName, null, null, false);
         dialogEdtNormalFragment.setOnEdtDialogItemClickListener(new DialogManufacturerFragment.OnManufactureFinishListener() {
             @Override
-            public void finish(final String manufacturerName, final String imgPath) {
+            public void finish(final String manufacturerName, final String imgPath, final String devicePath) {
                 BaseApplication.MAIN_EXECUTOR.execute(new Runnable() {
                     @Override
                     public void run() {
-                        saveData(manufacturerName, imgPath);
+                        saveData(manufacturerName, imgPath, devicePath);
                     }
                 });
             }
@@ -281,7 +285,7 @@ public class BasicSetFragment extends Fragment {
         FragmentUtil.showDialogFragment(getActivity().getSupportFragmentManager(), dialogEdtNormalFragment, "DialogManufacturerFragment");
     }
 
-    private void saveData(String manufacturerName, String imgPath) {
+    private void saveData(String manufacturerName, String imgPath, String deviceName) {
         boolean isSet = false;
         if (manufacturerName == null || manufacturerName.isEmpty()) {
             File file = new File("mnt/sdcard/Android/obj/com.bmw.peek2s", "manufacturer.txt");
@@ -293,7 +297,17 @@ public class BasicSetFragment extends Fragment {
             isSet = Manufacturer_FileUtil.writeFile("mnt/sdcard/Android/obj/com.bmw.peek2s", "manufacturer.txt", manufacturerName);
         }
 
-        if (imgPath != null) {
+        if (deviceName == null || deviceName.isEmpty()) {
+            File file = new File("mnt/sdcard/Android/obj/com.bmw.peek2s", "device.txt");
+            if (file.exists())
+                isSet = file.delete();
+            else
+                isSet = true;
+        } else {
+            isSet = Manufacturer_FileUtil.writeFile("mnt/sdcard/Android/obj/com.bmw.peek2s", "device.txt", deviceName);
+        }
+
+        if (imgPath != null && !imgPath.equals(Constant.LOGO_PATH)) {
             isSet = FileUtil.replaceImage(imgPath, Constant.LOGO_PATH);
         } else {
             File file = new File(Constant.LOGO_PATH);

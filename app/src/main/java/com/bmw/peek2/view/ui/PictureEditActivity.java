@@ -32,30 +32,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bmw.peek2.BaseApplication;
+import com.bmw.peek2.Constant;
 import com.bmw.peek2.R;
 import com.bmw.peek2.model.Login_info;
-import com.bmw.peek2.model.PictureQueXianInfo;
+import com.bmw.peek2.model.PipeDefectDetail;
+import com.bmw.peek2.model.PipeDefectImage;
 import com.bmw.peek2.utils.BitmapUtils;
-import com.bmw.peek2.utils.DbHelper;
 import com.bmw.peek2.utils.FileUtil;
 import com.bmw.peek2.utils.FragmentUtil;
 import com.bmw.peek2.utils.LogUtil;
 import com.bmw.peek2.utils.BatteryViewUtil;
 import com.bmw.peek2.utils.PullXmlParseUtil;
+import com.bmw.peek2.utils.StringUtils;
 import com.bmw.peek2.view.adapter.PictureEditAdapter;
 import com.bmw.peek2.view.fragments.DialogBiaojiFragment;
 import com.bmw.peek2.view.fragments.DialogNormalFragment;
 import com.bmw.peek2.view.fragments.DialogQuexianEditFragment;
 import com.bmw.peek2.view.fragments.OnDialogFragmentClickListener;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
-
-import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -108,8 +104,8 @@ public class PictureEditActivity extends BaseActivity {
     private PictureEditAdapter adapter;
     private int position = -1;
     private Handler handler;
-    private DbUtils dbUtils;
-    private List<PictureQueXianInfo> list;
+    //    private DbUtils dbUtils;
+    private List<PipeDefectDetail> list;
 
     private static final String GuanDaoHao = "GuanDaoHao";
     private static final String Distance = "Distance";
@@ -126,17 +122,20 @@ public class PictureEditActivity extends BaseActivity {
     private String mAddString;
     private int textsize = 30;
     private String mGuanDaoStr = "";
+    private Intent mIntent;
+    private PipeDefectImage mPipeDefectImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture_edit);
         ButterKnife.bind(this);
+        mIntent = new Intent();
         initBroadcastReceiver();
         initBattery();
         initHandler();
-        dbUtils = DbHelper.getDbUtils();
-
+//        dbUtils = DbHelper.getDbUtils();
+        mPipeDefectImage = new PipeDefectImage();
         String path = getIntent().getStringExtra("path");
         fileName = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
 
@@ -305,19 +304,13 @@ public class PictureEditActivity extends BaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    list = dbUtils.findAll(PictureQueXianInfo.class);
-                    if (list != null) {
-                        Collections.sort(list);
-                        handler.sendEmptyMessage(i);
-                        if (i != 4)
-                            position = -1;
-                    } else {
+                list = mPipeDefectImage.getPipeDefectDetails();
+                if (list != null) {
+                    handler.sendEmptyMessage(i);
+                    if (i != 4)
                         position = -1;
-                    }
-
-                } catch (DbException e) {
-                    e.printStackTrace();
+                } else {
+                    position = -1;
                 }
             }
         }).start();
@@ -333,7 +326,7 @@ public class PictureEditActivity extends BaseActivity {
                         if (position != -1) {
                             recyListView.smoothScrollToPosition(position);
                         }
-                        setListText();
+//                        setListText();
                         break;
                     case 1:
                         adapter.setList(list);
@@ -358,7 +351,7 @@ public class PictureEditActivity extends BaseActivity {
         };
     }
 
-    private void setListText() {
+    /*private void setListText() {
         if (list == null)
             return;
         mClock.setText(position == -1 ? "" : list.get(position).getClock());
@@ -368,7 +361,7 @@ public class PictureEditActivity extends BaseActivity {
         mGrade.setText(position == -1 ? "" : list.get(position).getGrade());
         mLength.setText(position == -1 ? "" : list.get(position).getLength());
         mDetail.setText(position == -1 ? "" : list.get(position).getDetail());
-    }
+    }*/
 
     @Override
     protected void onDestroy() {
@@ -417,18 +410,32 @@ public class PictureEditActivity extends BaseActivity {
                     DialogQuexianEditFragment dialogQuexianEditFragment = DialogQuexianEditFragment.getInstance(false, list.get(position));
                     dialogQuexianEditFragment.setOnDataChangeListener(new DialogQuexianEditFragment.OnDataChangeListener() {
                         @Override
-                        public void finish() {
+                        public void save(PipeDefectDetail pipeDefectDetail) {
+                            mPipeDefectImage.addDefectDetail(pipeDefectDetail);
                             initData(3);
+                        }
+
+                        @Override
+                        public void update(PipeDefectDetail pipeDefectDetail) {
+
                         }
                     });
                     showDialogFragment(getSupportFragmentManager(), dialogQuexianEditFragment, "DialogQuexianEditFragment");
                 } else {
 
-                    DialogQuexianEditFragment dialogQuexianEditFragment = DialogQuexianEditFragment.getInstance(false, null);
+                    DialogQuexianEditFragment dialogQuexianEditFragment =
+                            DialogQuexianEditFragment.getInstance(false, null);
                     dialogQuexianEditFragment.setOnDataChangeListener(new DialogQuexianEditFragment.OnDataChangeListener() {
+
                         @Override
-                        public void finish() {
+                        public void save(PipeDefectDetail pipeDefectDetail) {
+                            mPipeDefectImage.addDefectDetail(pipeDefectDetail);
                             initData(3);
+                        }
+
+                        @Override
+                        public void update(PipeDefectDetail pipeDefectDetail) {
+
                         }
                     });
                     showDialogFragment(getSupportFragmentManager(), dialogQuexianEditFragment, "DialogQuexianEditFragment");
@@ -439,10 +446,21 @@ public class PictureEditActivity extends BaseActivity {
                 if (position == -1)
                     handler.sendEmptyMessage(5);
                 else {
-                    DialogQuexianEditFragment dialogQuexianEditFragment = DialogQuexianEditFragment.getInstance(true, list.get(position));
+                    DialogQuexianEditFragment dialogQuexianEditFragment =
+                            DialogQuexianEditFragment.getInstance(true, mPipeDefectImage.getPipeDefectDetails().get(position));
                     dialogQuexianEditFragment.setOnDataChangeListener(new DialogQuexianEditFragment.OnDataChangeListener() {
+
                         @Override
-                        public void finish() {
+                        public void save(PipeDefectDetail pipeDefectDetail) {
+
+                        }
+
+                        @Override
+                        public void update(PipeDefectDetail pipeDefectDetail) {
+                            ArrayList<PipeDefectDetail> pipeDefectDetails = mPipeDefectImage.getPipeDefectDetails();
+                            pipeDefectDetails.remove(position);
+                            pipeDefectDetails.add(position, pipeDefectDetail);
+                            mPipeDefectImage.setPipeDefectDetails(pipeDefectDetails);
                             initData(4);
                         }
                     });
@@ -451,30 +469,36 @@ public class PictureEditActivity extends BaseActivity {
 
                 break;
             case R.id.capture_delete:
-                if (position != -1)
-                    try {
-                        dbUtils.delete(list.get(position));
-                        LogUtil.log("数据库：删除成功", position);
-                        position = -1;
-                        setListText();
-                        initData(2);
-                    } catch (DbException e) {
-                        LogUtil.error("数据库：删除失败：", e);
-                        e.printStackTrace();
-                    }
+                if (position != -1) {
+                    ArrayList<PipeDefectDetail> pipeDefectDetails = mPipeDefectImage.getPipeDefectDetails();
+                    pipeDefectDetails.remove(position);
+                    mPipeDefectImage.setPipeDefectDetails(pipeDefectDetails);
+//                    try {
+//                        dbUtils.delete(list.get(position));
+                    LogUtil.log("数据库：删除成功", position);
+                    position = -1;
+//                        setListText();
+                    initData(2);
+//                    } catch (DbException e) {
+//                        LogUtil.error("数据库：删除失败：", e);
+//                        e.printStackTrace();
+//                    }
+                }
                 break;
             case R.id.tv_picEdit_goback:
                 String picName = null;
-                if (!TextUtils.isEmpty(mGuanDaoStr)) {
-                    picName = fileName + "_" + mGuanDaoStr + ".jpg";
+                String oldName = fileName + ".jpg";
+                if (!TextUtils.isEmpty(mGuanDaoStr) && !mGuanDaoStr.equals("")) {
+                    fileName = fileName + "_" + mGuanDaoStr;
+                    mPipeDefectImage.setPipeSection(mGuanDaoStr);
                 } else {
-                    picName = fileName + ".jpg";
+                    fileName = fileName;
                 }
 
-                String oldName = fileName + ".jpg";
+                picName = fileName + ".jpg";
                 if (!oldName.equals(picName)) {
                     FileUtil.renameFile(FileUtil.getFileSavePath() + Login_info.local_picture_path, oldName, picName);
-                    FileUtil.updateSystemLibFile(FileUtil.getFileSavePath() + Login_info.local_picture_path+oldName);
+                    FileUtil.updateSystemLibFile(FileUtil.getFileSavePath() + Login_info.local_picture_path + oldName);
                 }
 
                 if (mAddString != null && !TextUtils.isEmpty(mAddString)) {
@@ -487,6 +511,8 @@ public class PictureEditActivity extends BaseActivity {
 
 //              FileUtil.updateSystemFileList(FileUtil.FILE_PICTURE);
                 FileUtil.updateSystemLibFile(FileUtil.getFileSavePath() + Login_info.local_picture_path + picName);
+                mIntent.putExtra(Constant.KEY_ACTIVITY_RESULT_PIC_PATH, FileUtil.getFileSavePath() + Login_info.local_picture_path + picName);
+                mPipeDefectImage.setFilename(FileUtil.getFileSavePath() + Login_info.local_picture_path + picName);
                 commitAllInfo();
                 break;
             case R.id.preview_closeApp:
@@ -536,29 +562,35 @@ public class PictureEditActivity extends BaseActivity {
     }*/
 
     private void commitAllInfo() {
-        if (position < 0 && TextUtils.isEmpty(mPipeIdEdt.getText().toString())) {
+        if (position < 0 && (TextUtils.isEmpty(mPipeIdEdt.getText().toString()) || mPipeIdEdt.getText().toString().equals(""))) {
+            setResultIntent(false);
             finish();
             return;
         }
+        BaseApplication.MAIN_EXECUTOR.execute(new Runnable() {
+            @Override
+            public void run() {
 
-        Map<String, String> map = null;
-        if (list != null && position >= 0) {
-            map = new HashMap<>();
-            map.put(Distance, list == null ? "" : list.get(position).getDistance());
-            map.put(DefectType, list == null ? "" : list.get(position).getStyle());
-            map.put(DefectCode, list == null ? "" : list.get(position).getName());
-            map.put(DefectLevel, list == null ? "" : list.get(position).getGrade());
-            map.put(ClockExpression, list == null ? "" : list.get(position).getClock());
-            map.put(DefectLength, list == null ? "" : list.get(position).getLength());
-            map.put(DefectDescription, list == null ? "" : list.get(position).getDetail());
-        }
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(FileUtil.getFileSavePath()).append(Login_info.local_picture_path).append(fileName).append("_").append(mGuanDaoStr).append(".xml");
-        File file = new File(stringBuilder.toString());
-        PullXmlParseUtil.writeXml(file, fileName, mPipeIdEdt.getText().toString(), new String[]{Distance, DefectType, DefectCode, DefectLevel, ClockExpression, DefectLength, DefectDescription,}, map);
-        FileUtil.updateSystemLibFile(stringBuilder.toString());
+                PullXmlParseUtil.writePicQueXianXml(mPipeDefectImage);
+            }
+        });
+        setResultIntent(true);
         finish();
+    }
+
+    private void setResultIntent(boolean hasXml) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(FileUtil.getFileSavePath()).append(Login_info.local_picture_path).append(fileName);
+
+        mIntent.putExtra(Constant.KEY_ACTIVITY_RESULT_PIC_PATH, stringBuilder.toString() + ".jpg");
+        if (hasXml) {
+            mIntent.putExtra(Constant.KEY_ACTIVITY_RESULT_XML_PATH, stringBuilder.toString() + ".xml");
+            if (position != -1) {
+                String codeName = String.valueOf(mPipeDefectImage.getPipeDefectDetails().size());
+                mIntent.putExtra(Constant.KEY_ACTIVITY_RESULT_PIC_QUEXIAN_CODE, StringUtils.isStringEmpty(codeName) ? "无缺陷" : codeName);
+            }
+        }
+        setResult(2, mIntent);
     }
 
 

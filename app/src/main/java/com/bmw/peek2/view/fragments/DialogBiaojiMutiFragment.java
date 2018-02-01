@@ -89,7 +89,7 @@ public class DialogBiaojiMutiFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         mView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_biaoji_four, null);
         ButterKnife.bind(this, mView);
-        if (BaseApplication.getSharedPreferences().getBoolean(Constant.KEY_IS_RECORDHEADER_ALWAYS_SHOW, false)) {
+        if (BaseApplication.getSharedPreferences().getBoolean(Constant.KEY_IS_RECORDHEADER_ALWAYS_SHOW, Constant.IS_RECORDHEADER_ALWAYS_SHOW_DEFAULT)) {
             tl_row3.setVisibility(View.GONE);
             tl_row4.setVisibility(View.GONE);
         }

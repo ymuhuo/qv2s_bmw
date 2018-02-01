@@ -40,6 +40,10 @@ public class RecordTaskInfo  implements Comparable,Serializable{
     @Column(column = "task_people")
     private String task_people;
 
+    @Column(column = "task_date")
+    private String task_date;
+
+
 
     public RecordTaskInfo() {
 
@@ -62,6 +66,14 @@ public class RecordTaskInfo  implements Comparable,Serializable{
         this.task_diameter = task_diameter;
         this.task_computer = task_computer;
         this.task_people = task_people;
+    }
+
+    public String getTask_date() {
+        return task_date;
+    }
+
+    public void setTask_date(String task_date) {
+        this.task_date = task_date;
     }
 
     public int getId() {

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -43,13 +44,15 @@ public class DialogManufacturerFragment extends DialogFragment {
     @Bind(R.id.tv_title)
     TextView mTitle;
     @Bind(R.id.edt_message)
-    EditText mMessage;
+    TextInputEditText mMessage;
     @Bind(R.id.normal_dialog_cancel)
     TextView mCancel;
     @Bind(R.id.normal_dialog_sure)
     TextView mSure;
     @Bind(R.id.img_manufacturer)
     ImageView img_manufacturer;
+    @Bind(R.id.edt_deviceName)
+    TextInputEditText edtDeviceName;
     private View mView;
     private boolean mIsNeedDismissCancel;
     private Timer timer;
@@ -61,7 +64,7 @@ public class DialogManufacturerFragment extends DialogFragment {
     public static final int RESULT_CODE = 119;
     public static final String IMG_PATH_FLAG = "IMG_PATH_FLAG";
 
-    public static DialogManufacturerFragment getInstance(String title, String message, String imgPath, String sureName, String cancelName, boolean isAutoCancel) {
+    public static DialogManufacturerFragment getInstance(String title, String message, String imgPath, String deviceName, String sureName, String cancelName, boolean isAutoCancel) {
         DialogManufacturerFragment dialogNormalFragment = new DialogManufacturerFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
@@ -73,6 +76,8 @@ public class DialogManufacturerFragment extends DialogFragment {
             bundle.putString("sureName", sureName);
         if (cancelName != null)
             bundle.putString("cancelName", cancelName);
+        if (deviceName != null)
+            bundle.putString("deviceName", deviceName);
         bundle.putBoolean("isAutoCancel", isAutoCancel);
         dialogNormalFragment.setArguments(bundle);
         return dialogNormalFragment;
@@ -94,10 +99,11 @@ public class DialogManufacturerFragment extends DialogFragment {
             mCancel.setText(cancelName);
             cancelStr = cancelName;
         }
+        edtDeviceName.setText(getArguments().getString("deviceName"));
 
-        String imgPath = getArguments().getString("imgPath");
-        if (imgPath != null) {
-            showImgNoCache(imgPath);
+        mImgPath = getArguments().getString("imgPath");
+        if (mImgPath != null) {
+            showImgNoCache(mImgPath);
 //            Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
 //            if (img_manufacturer != null)
 //                img_manufacturer.setImageBitmap(bitmap);
@@ -223,7 +229,8 @@ public class DialogManufacturerFragment extends DialogFragment {
                 getDialog().dismiss();
                 if (listener != null) {
                     String msg = mMessage.getText().toString();
-                    listener.finish(msg, mImgPath);
+                    String deviceName = edtDeviceName.getText().toString();
+                    listener.finish(msg, mImgPath, deviceName);
                 }
                 break;
             case R.id.img_manufacturer:
@@ -254,7 +261,7 @@ public class DialogManufacturerFragment extends DialogFragment {
     }
 
     public interface OnManufactureFinishListener {
-        void finish(String manufacturerName, String imgPath);
+        void finish(String manufacturerName, String imgPath, String deviceName);
 
         void cancel();
     }

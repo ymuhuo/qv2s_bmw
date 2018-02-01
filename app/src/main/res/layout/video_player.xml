@@ -5,39 +5,39 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_border_yellow"
     android:padding="3dp"
-    android:visibility="gone">
+    android:visibility="visible">
 
     <RelativeLayout
         android:id="@+id/container_control_videoPlayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:background="@color/background">
 
         <TextView
             android:id="@+id/tv_video_allTime"
             style="@style/video_play_text"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:text="00:00"
-            android:layout_centerVertical="true" />
+            android:text="00:00" />
 
         <TextView
             android:id="@+id/tv_video_timeXiangan"
             style="@style/video_play_text"
             android:layout_alignBaseline="@+id/tv_video_allTime"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/tv_video_allTime"
-            android:text="/"
-            android:layout_centerVertical="true"  />
+            android:text="/" />
 
         <TextView
             android:id="@+id/tv_video_currentTime"
             style="@style/video_play_text"
             android:layout_alignBaseline="@+id/tv_video_timeXiangan"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/tv_video_timeXiangan"
-            android:text="00:00"
-            android:layout_centerVertical="true" />
+            android:text="00:00" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -129,28 +129,43 @@
             android:id="@+id/tv_video_title_playSpeed"
             style="@style/video_play_text"
             android:layout_alignBaseline="@+id/tv_video_playSpeed"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/tv_video_playSpeed"
-            android:text="@string/playSpeed"
-            android:layout_centerVertical="true"/>
+            android:text="@string/playSpeed" />
     </RelativeLayout>
-
 
 
     <SeekBar
         android:id="@+id/player_seekbar"
         style="@style/preview_seekBar"
-        android:layout_above="@id/container_control_videoPlayer"
-        android:layout_height="@dimen/video_play_seekbar_height" />
+        android:layout_height="@dimen/video_play_seekbar_height"
+        android:layout_above="@id/container_control_videoPlayer" />
+
+    <com.bmw.peek2.view.view.CustomPotSeekBar
+        android:id="@+id/cpsb_picPot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/player_seekbar"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"/>
 
 
-    <VideoView
-        android:id="@+id/player_surface"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/player_seekbar"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:alpha="0"/>
+        android:layout_above="@+id/cpsb_picPot"
+        android:orientation="vertical">
+        <!--
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"-->
+        <VideoView
+            android:id="@+id/player_surface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:alpha="0" />
+    </RelativeLayout>
+
 
 </RelativeLayout>

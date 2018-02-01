@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 /**
  * Created by admin on 2017/11/1.
+ * 标注信息存储
  */
 @Table(name = "BZInfo", execAfterTableCreated = "")
 public class BZInfo   implements Comparable,Serializable {

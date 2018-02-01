@@ -60,7 +60,7 @@
     <dimen name="file_item_container_out_padding">5dp</dimen>
     <dimen name="file_item_textsize">8sp</dimen>
     <dimen name="pic_show_list">8sp</dimen>
-    <dimen name="fileshow_quexian_title_textsize">10sp</dimen>
+    <dimen name="fileshow_quexian_title_textsize">9sp</dimen>
     <dimen name="file_show_scroll_height">75dp</dimen>
     <dimen name="video_player_time_marginTop">1dp</dimen>
     <dimen name="video_player_seekbar_marginBottom">1dp</dimen>

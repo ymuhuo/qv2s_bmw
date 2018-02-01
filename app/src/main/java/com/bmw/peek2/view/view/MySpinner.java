@@ -1,5 +1,6 @@
 package com.bmw.peek2.view.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -23,6 +25,7 @@ import com.bmw.peek2.view.adapter.TextSpinnerAdapter;
  * Created by admin on 2017/3/6.
  */
 
+@SuppressLint("AppCompatCustomView")
 public class MySpinner extends TextView {
     private Context mContext;
     private TextSpinnerAdapter adapter;
@@ -45,7 +48,6 @@ public class MySpinner extends TextView {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MySpinner);
         mWidth = typedArray.getDimensionPixelSize(R.styleable.MySpinner_width_view, 0);
         typedArray.recycle();
-
     }
 
     public MySpinner(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -128,6 +130,10 @@ public class MySpinner extends TextView {
                 if (mDropView.isShowing()) {
                     dismissPop();
                 } else {
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(getRootView().getWindowToken(),0);
+                    }
                     showPop();
                 }
             }

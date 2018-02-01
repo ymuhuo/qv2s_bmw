@@ -524,4 +524,13 @@ public class FileUtil {
             bitmap = null;
         }
     }
+
+    public static String replacePostFix(String path,String postfix){
+        if(path == null)
+            return null;
+        if(!path.contains("."))
+            return path;
+        String pathNoPostfix = path.substring(0,path.lastIndexOf("."));
+        return pathNoPostfix+postfix;
+    }
 }

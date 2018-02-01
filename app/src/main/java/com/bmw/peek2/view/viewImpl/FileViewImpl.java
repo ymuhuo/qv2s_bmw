@@ -1,6 +1,5 @@
 package com.bmw.peek2.view.viewImpl;
-
-import android.support.v4.app.DialogFragment;
+import com.bmw.peek2.model.PipeDefectImage;
 
 /**
  * Created by admin on 2016/9/8.
@@ -22,4 +21,9 @@ public interface FileViewImpl {
     void copyWhichFile(int position);
     void copyFinish();
 //    void showDialogFragment(DialogFragment dialogFragment,String tag);
+
+    void setSeekbarMax(int max);
+    void setPlayPlace(int progress);
+    void showPicXmlInfo(PipeDefectImage pipeDefectImages);
+
 }
